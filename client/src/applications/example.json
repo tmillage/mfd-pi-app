@@ -1,0 +1,45 @@
+{
+    "name" : "s",
+    "window": "",
+    "commands" : {
+        "cmd1": "one",
+        "cmd2": "two",
+        "cmd3": "three"
+    },
+    "pannels" : [
+        {
+            "position": "",
+            "background": "",
+            "buttons": [
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""},
+                {"label":"", "command":""}
+            ]
+        }
+    ]
+}
