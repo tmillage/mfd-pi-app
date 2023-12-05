@@ -41,6 +41,7 @@
 
 body {
   background-color: black;
+  --button-margin: 15px;
 }
 
 #clock {
@@ -55,42 +56,67 @@ body {
 
 .background {
   width: 200px;
+  display: inline-block;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%,-50%);
 }
 
 .mfd {
   position: absolute;
   border: 1px solid green;
-}
-
-.middleScreen {
-  border: 1px solid green;
-  border-radius: 1em;
-  min-width: 200px;
-  min-height: 200px;
-}
-
-.topButtons, .bottomButtons {
-  margin: 5px;
-  gap: 5px;
   display: flex;
   flex-direction: row;
 }
 
+.centerScreen {
+  border: 1px solid green;
+  border-radius: 1em;
+  flex-grow: 2;
+}
+
+.topButtons, .bottomButtons {
+  margin: var(--button-margin);
+  gap: var(--button-margin);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .leftButtons, .rightButtons {
-  margin: 5px;
-  gap: 5px;
+  margin: var(--button-margin);
+  gap: var(--button-margin);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.middleColumn {
   display: flex;
   flex-direction: column;
 }
 
 .button {
+  color: green;
+  font-size: 20px;
   height: 50px;
   width: 50px;
   border: 1px solid green;
   flex-shrink: 0;
   flex-grow: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.rocker .button {
+  height: 40px;
+  width: 40px;
+}
+
+.button:active {
+  background-color: green;
 }
