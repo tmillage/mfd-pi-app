@@ -11,8 +11,9 @@ const ButtonIcons =  {
 
 class Button extends Component {
 	state = {
-		action: this.props.action,
-		label: this.props.label || (this.props.action ? ButtonIcons.Default : ButtonIcons.NoAction)
+		action: this.props.action || function() {},
+		label: this.props.label || (this.props.action ? ButtonIcons.Default : ButtonIcons.NoAction),
+		pressedColor: this.props.action ? "green" : "red"
 	}
 
 	render = function() {
@@ -23,17 +24,11 @@ class Button extends Component {
 			className="button"
 			onMouseDown={ () => {
 				button.style.transition = "";
-				if(this.state.action) {
-					button.style.backgroundColor = "green";
-					this.state.action("start")
-				} else {
-					button.style.backgroundColor = "red";
-				}
+				button.style.backgroundColor = this.state.pressedColor;
+				this.state.action("start")
 			} }
 			onMouseUp={ () => {
-				if(this.state.action) {
-					this.state.action("end")
-				}
+				this.state.action("end");
 				button.style.transition = "background-color 1s linear";
 				button.style.background = "unset";
 			}}
@@ -47,7 +42,6 @@ class Button extends Component {
 
 class Rocker extends Component {
 	state = {
-		label: this.props.label || "X",
 		actionUp: this.props.actionUp,
 		actionDown: this.props.actionDown
 	}

@@ -27,13 +27,10 @@ class MFD extends Component {
 		setTimeout(() => {el.style.background = ''}, 250);
 	}
 
-	//div className={`labels mfd-${this.state.position}`}
-
 	render = function() {
 		let T = this;
 		let center = null;
 		const setBackground = function(color) {
-			console.log(color)
 			if(center) {
 				center.style.transition = color === "" ? "background-color 1s linear" : "";
 				center.style.backgroundColor = color;

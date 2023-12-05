@@ -36,9 +36,11 @@ body {
 }
 
 .centerScreen {
+	width: 440px;
+	height: 440px;
 	border: 1px solid green;
 	border-radius: 1em;
-	flex-grow: 2;
+	flex-grow: 0;
 }
 
 .topButtons, .bottomButtons {
