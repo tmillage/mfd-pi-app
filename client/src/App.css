@@ -42,12 +42,6 @@
 body {
   background-color: black;
 }
-.mfd {
-  width: 440px;
-  position: absolute;
-  bottom: 80px;
-  display: none;
-}
 
 #clock {
   color: green;
@@ -59,14 +53,6 @@ body {
   text-align: center;
 }
 
-.labels {
-  bottom: 65px;
-  width: 440px;
-  position: absolute;
-  height: 425px;
-  overflow: hidden;
-}
-
 .background {
   width: 200px;
   position: absolute;
@@ -75,249 +61,36 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.label {
+.mfd {
   position: absolute;
-  overflow: hidden;
-  padding: 3px;
   border: 1px solid green;
-  color: green;
-  text-align: center;
+}
+
+.middleScreen {
+  border: 1px solid green;
+  border-radius: 1em;
+  min-width: 200px;
+  min-height: 200px;
+}
+
+.topButtons, .bottomButtons {
+  margin: 5px;
+  gap: 5px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: content-box;
-  background-color: black;
-
-  --small-width: 39px;
-  --small-height: 16px;
-  --medium-width: 43px;
-  --medium-height: 43px;
-  --large-width: 100px; /*179px*/
-  --large-height: 40px;
+  flex-direction: row;
 }
 
-.label:empty {
-  display: none;
+.leftButtons, .rightButtons {
+  margin: 5px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
-.labels .pos-1 {
-  top: 5px;
-  left: 64px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-2 {
-  top: 5px;
-  left: 129px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-3 {
-  top: 5px;
-  left: 194px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-4 {
-  top: 5px;
-  left: 259px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-5 {
-  top: 5px;
-  left: 323px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-6 {
-  top: 65px;
-  right: 10px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-7 {
-  top: 125px;
-  right: 10px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-8 {
-  top: 185px;
-  right: 10px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-9 {
-  top: 245px;
-  right: 10px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-10 {
-  top: 305px;
-  right: 10px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-11 {
-  bottom: 15px;
-  left: 323px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-12 {
-  bottom: 15px;
-  left: 259px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-13 {
-  bottom: 15px;
-  left: 194px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-14 {
-  bottom: 15px;
-  left: 129px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-15 {
-  bottom: 15px;
-  left: 64px;
-  width: var(--medium-width);
-  height: var(--medium-height);
-}
-
-.labels .pos-16 {
-  top: 305px;
-  left: 9px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-17 {
-  top: 245px;
-  left: 9px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-18 {
-  top: 185px;
-  left: 9px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-19 {
-  top: 125px;
-  left: 9px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-20 {
-  top: 65px;
-  left: 9px;
-  width: var(--large-width);
-  height: var(--large-height);
-}
-
-.labels .pos-21 {
-  top: 5px;
-  left: 376px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .pos-22 {
-  top: 30px;
-  left: 376px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .pos-23 {
-  top: 360px;
-  left: 376px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .pos-24 {
-  top: 385px;
-  left: 376px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .pos-25 {
-  top: 360px;
-  left: 15px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .pos-26 {
-  top: 385px;
-  left: 15px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-.labels .pos-27 {
-  top: 5px;
-  left: 15px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .pos-28 {
-  top: 30px;
-  left: 15px;
-  width: var(--small-width);
-  height: var(--small-height);
-}
-
-.labels .small {
-  width: 39px;
-  height: 16px;
-}
-
-.labels .medium {
-  width: 43px;
-  max-height: 43px;
-}
-
-.labels .large {
-  max-width: 179px;
-  height: 40px;
-}
-
-.mfd-left {
-  left: 0px;
+.button {
+  height: 50px;
+  width: 50px;
   border: 1px solid green;
-}
-.mfd-right {
-  right: 0px;
-  border: 1px solid green;
-}
-
-.label {
+  flex-shrink: 0;
+  flex-grow: 0;
 }

@@ -59,6 +59,8 @@ class App extends Component {
             position={pannel.position}
             background={pannel.background}
             buttons={pannel.buttons}
+            left = "25px"
+            bottom = "25px"
           />)
         })}
         <div id="clock" >

@@ -1,11 +1,16 @@
 import { Component } from "react";
+import BTN from "./button";
 
 class MFD extends Component {
     state = {
         app: this.props.app,
         position: this.props.position || "",
         background: this.props.background || "",
-        buttons: this.props.buttons || []
+        buttons: this.props.buttons || [],
+        left: this.props.left || "",
+        right: this.props.right || "",
+        top: this.props.top || "",
+        bottom: this.props.bottom || ""
     }
 
     runCommand = async (el, app, cmd) => {
@@ -22,31 +27,53 @@ class MFD extends Component {
         setTimeout(() => {el.style.background = ''}, 250);
     }
 
-    render() {
+    //div className={`labels mfd-${this.state.position}`}
+
+    render = function() {
         let T = this;
         return(
-            <div className={`labels mfd-${this.state.position}`}>
-              <img className="background" src={this.state.background}/>
-              {this.state.buttons.map(function(button, index) {
-                if(typeof button === "string") {
-                    button = {
-                        label: button,
-                        command: "one"
-                    }
-                }
-                let buttonEl = null;
-
-                return (
-                <button
-                    key={index}
-                    ref={ el => buttonEl = el }
-                    className={`label pos-${index + 1}`}
-                    onClick={() => { T.runCommand(buttonEl, T.state.app, button.command)} }
-                >
-                    {button.label}
-                </button>);
-              })}
-            </div>
+            <table className={`mfd`} style={{left: this.props.left, right: this.props.right, top: this.props.top, bottom: this.props.bottom}}>
+                <tr>
+                    <td></td>
+                    <td className="topButtons">
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td className="leftButtons">
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                    </td>
+                    <td className="middleScreen"><img className="background" src={this.state.background} alt="a background"/></td>
+                    <td className="rightButtons">
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td className="bottomButtons">
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                        <BTN />
+                    </td>
+                    <td></td>
+                </tr>
+              
+            </table>
         )
     }
 }
