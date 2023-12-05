@@ -40,6 +40,21 @@ class Button extends Component {
 	}
 }
 
+class ButtonLabel extends Component {
+	state = {
+		label: this.props.label,
+		size: this.props.size
+	}
+
+	render = function() {
+		return (
+			<div className={`label ${this.state.size}`}>
+				{this.state.label}
+			</div>
+		)
+	}
+}
+
 class Rocker extends Component {
 	state = {
 		actionUp: this.props.actionUp,
@@ -48,11 +63,28 @@ class Rocker extends Component {
 
 	render = function() {
 		return (
-		<div className="rocker">
-			<Button label={this.state.actionUp ? ButtonIcons.UpArrow : ButtonIcons.NoAction} action={this.state.actionUp} />
-			<Button label={this.state.actionUp ? ButtonIcons.DownArrow : ButtonIcons.NoAction} action={this.state.actionDown} />
-		</div>);
+			<div className="rocker">
+				<Button label={this.state.actionUp ? ButtonIcons.UpArrow : ButtonIcons.NoAction} action={this.state.actionUp} />
+				<Button label={this.state.actionUp ? ButtonIcons.DownArrow : ButtonIcons.NoAction} action={this.state.actionDown} />
+			</div>
+		);
 	}
 }
 
-export {Button, Rocker}
+class RockerLabel extends Component {
+	state = {
+		labelUp: this.props.labelUp,
+		labelDown: this.props.labelDown
+	}
+	
+	render = function() {
+		return (
+			<div className="rocker-label">
+				<ButtonLabel label={this.state.labelUp} size="small" />
+				<ButtonLabel label={this.state.labelDown} size="small" />
+			</div>
+		);
+	}
+}
+
+export {Button, ButtonLabel, Rocker, RockerLabel}

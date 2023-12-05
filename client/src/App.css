@@ -5,6 +5,7 @@
 body {
 	background-color: black;
 	--button-margin: 15px;
+	--small-button-margin: 5px;
 }
 
 #clock {
@@ -33,14 +34,6 @@ body {
 	border: 1px solid green;
 	display: flex;
 	flex-direction: row;
-}
-
-.centerScreen {
-	width: 440px;
-	height: 440px;
-	border: 1px solid green;
-	border-radius: 1em;
-	flex-grow: 0;
 }
 
 .topButtons, .bottomButtons {
@@ -84,6 +77,79 @@ body {
 	width: 40px;
 }
 
-.button:active {
-	background-color: green;
+.centerScreen {
+	width: 440px;
+	height: 440px;
+	border: 1px solid green;
+	border-radius: 1em;
+	background-color: lightgreen;
+	flex-grow: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+}
+
+.topLabels, .bottomLabels {
+	height: 45px;
+	width: calc(100% + 2 * var(--button-margin));
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: var(--button-margin);
+	margin-left: calc(0px - var(--button-margin));
+	margin-right: calc(0px - var(--button-margin));
+}
+
+.leftLabels, .rightLabels {
+	width: 100px;
+	flex-grow: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--button-margin)
+}
+
+.middleLabels {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+}
+
+.centerLabels {
+	flex-grow: 1;
+}
+
+.label {
+	overflow: hidden;
+	border: 1px solid green;
+	color: green;
+	background-color: black;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rocker-label {
+	width: 47px;
+	display: flex;
+	flex-direction: column;
+	gap: var(--small-button-margin);
+}
+
+.label.small {
+	width: 48x;
+	height: 20px;
+}
+
+.label.medium {
+	width: 50px;
+	max-height: 45px;
+}
+
+.label.large {
+	max-width: 100;
+	height: 50px;
 }

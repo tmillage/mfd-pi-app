@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Button, Rocker }  from "./button";
+import { Button, ButtonLabel, Rocker, RockerLabel }  from "./button";
 
 class MFD extends Component {
 	state = {
@@ -68,7 +68,45 @@ class MFD extends Component {
 						<Button />
 						<Button />
 					</div>
-					<div ref={el => center = el} className="centerScreen"><img className="background" src={this.state.background} alt="a background"/></div>
+					<div ref={el => center = el} className="centerScreen">
+						<div className="topLabels">
+							<RockerLabel labelUp="rk1 u" labelDown="rk1 d" />
+							<ButtonLabel label="top 1" size="medium" />
+							<ButtonLabel label="top 2" size="medium" />
+							<ButtonLabel label="top 3" size="medium" />
+							<ButtonLabel label="top 4" size="medium" />
+							<ButtonLabel label="top 5" size="medium" />
+							<RockerLabel labelUp="rk2 u" labelDown="rk2 d" />
+						</div>
+						<div className="middleLabels">
+							<div className="leftLabels">
+								<ButtonLabel label="lft 1" size="large" />
+								<ButtonLabel label="lft 2" size="large" />
+								<ButtonLabel label="lft 3" size="large" />
+								<ButtonLabel label="lft 4" size="large" />
+								<ButtonLabel label="lft 5" size="large" />
+							</div>
+							<div className="centerLabels">
+								<img className="background" src={this.state.background} alt="a background"/>
+							</div>
+							<div className="rightLabels">
+								<ButtonLabel label="lft 1" size="large" />
+								<ButtonLabel label="lft 2" size="large" />
+								<ButtonLabel label="lft 3" size="large" />
+								<ButtonLabel label="lft 4" size="large" />
+								<ButtonLabel label="lft 5" size="large" />
+							</div>
+						</div>
+						<div className="bottomLabels">
+							<RockerLabel labelUp="rk3 u" labelDown="rk3 d" />
+							<ButtonLabel label="btm 1" size="medium" />
+							<ButtonLabel label="btm 2" size="medium" />
+							<ButtonLabel label="btm 3" size="medium" />
+							<ButtonLabel label="btm 4" size="medium" />
+							<ButtonLabel label="btm 5" size="medium" />
+							<RockerLabel labelUp="rk4 u" labelDown="rk4 d" />
+						</div>
+					</div>
 					<div className="bottomButtons">
 						<Button />
 						<Button />
