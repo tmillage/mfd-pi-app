@@ -35,16 +35,30 @@ class MFD extends Component {
 		const setBackground = function(color) {
 			console.log(color)
 			if(center) {
-				center.style.backgroundColor = color
+				center.style.transition = color === "" ? "background-color 1s linear" : "";
+				center.style.backgroundColor = color;
+			}
+		}
+
+		const buttonAction = function(color) {
+			return function (actionType) {
+				switch (actionType) {
+					case "start":
+						setBackground(color);
+						break;
+					case "end":
+						setBackground("");
+						break;
+				}
 			}
 		}
 		return(
 			<div className={`mfd`} style={{left: this.props.left, right: this.props.right, top: this.props.top, bottom: this.props.bottom}}>
 				<div className="leftButtons">
-					<Rocker />
-					<Button action={ () => { setBackground("red") } } />
-					<Button action={ () => { setBackground("blue") } } />
-					<Button />
+					<Rocker actionUp={ buttonAction("grey") } actionDown={ buttonAction("purple") } />
+					<Button action={ buttonAction("red") } />
+					<Button action={ buttonAction("blue") } />
+					<Button action={ buttonAction("white") }/>
 					<Button />
 					<Button />
 					<Rocker />

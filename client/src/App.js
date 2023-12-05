@@ -21,7 +21,7 @@ class App extends Component {
 	componentDidMount() {
 		this.setTime();
 		this.setState()
-		document.addEventListener('contextmenu', event => event.preventDefault());
+		//document.addEventListener('contextmenu', event => event.preventDefault());
 
 	}
 
