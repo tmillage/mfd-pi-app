@@ -34,13 +34,13 @@
 					{ "TextLabel": "Unlock", "Action": "Beige"}
 				],
 				"Left": [
+					{ "TextLabel": "FRND NR", "Action": "CornflowerBlue"}
+				],
+				"Right": [
 					{ "TextLabel": "HSTL NR", "Action": "Blue"},
 					{ "TextLabel": "EXIT SEAT", "Action": "Brown"},
 					{ "TextLabel": "Wipe Helmet", "Action": "BurlyWood"},
 					{ "TextLabel": "Gimbal", "Action": "CadetBlue"}
-				],
-				"Right": [
-					{ "TextLabel": "FRND NR", "Action": "CornflowerBlue"}
 				],
 				"Bottom": [
 					{ "TextLabel": "Wave", "Action": "Cornsilk"},
@@ -51,18 +51,22 @@
 				],
 				"Rocker": [
 					{
+						"Label": "FRND",
 						"Top": { "TextLabel": "FRND+", "Action": "AliceBlue"},
 						"Bottom": { "TextLabel": "FRND-", "Action": "AntiqueWhite"}
 					},
 					{
+						"Label": "HSTL",
 						"Top": { "TextLabel": "HSTL+", "Action": "Bisque"},
 						"Bottom": { "TextLabel": "HSTL-", "Action": "BlanchedAlmond"}
 					},
 					{
+						"Label": "CNTR",
 						"Top": { "TextLabel": "CNTR+", "Action": "Chartreuse"},
 						"Bottom": { "TextLabel": "CNTR-", "Action": "Chocolate"}
 					},
 					{
+						"Label": "Drop",
 						"Top": { "TextLabel": "", "Action": ""},
 						"Bottom": { "TextLabel": "Drop", "Action": "Coral"}
 					}

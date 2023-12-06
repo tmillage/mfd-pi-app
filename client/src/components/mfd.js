@@ -45,8 +45,11 @@ class MFD extends Component {
 		let center = null;
 		const setBackground = function(color) {
 			if(center) {
-				center.style.transition = color === "" ? "background-color 1s linear" : "";
-				center.style.backgroundColor = color;
+				center.style.transition = color === "" ? "background-image 1s linear" : "";
+				if(color === "") {
+					color = "lightgreen"
+				} 
+				center.style.backgroundImage = `radial-gradient(${color}, black)`;
 			}
 		}
 
@@ -81,7 +84,7 @@ class MFD extends Component {
 						<Button button={this.state.mfd.Buttons.Top[3]} actionCallback={actionCallback} />
 						<Button button={this.state.mfd.Buttons.Top[4]} actionCallback={actionCallback} />
 					</div>
-					<div ref={el => center = el} className="centerScreen">
+					<div ref={el => center = el} className="centerScreen crt">
 						<div className="topLabels">
 							<RockerLabel rocker={this.state.mfd.Buttons.Rocker[0]} />
 							<ButtonLabel button={this.state.mfd.Buttons.Top[0]} size="medium"  />

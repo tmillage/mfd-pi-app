@@ -20,14 +20,12 @@ class Button extends Component {
 	state = {
 		button: this.props.button || DefaultButton(),
 		actionCallback: this.props.actionCallback || function() { },
-		label: this.props.label,
-		pressedColor: "red"
+		label: this.props.label
 	}
 
 	componentDidMount () {
 		if(!this.state.label) {
 			this.state.label = this.state.button.Action ? ButtonIcons.Default : ButtonIcons.NoAction;
-			this.state.pressedColor = this.state.button.Action ? "green" : "red"
 			this.setState(this.state);
 		}
 	}
@@ -39,7 +37,7 @@ class Button extends Component {
 			className="button"
 			onMouseDown={ () => {
 				button.style.transition = "";
-				button.style.backgroundColor = this.state.pressedColor;
+				button.style.backgroundColor = this.state.button.Action !== "" ? "green" : "red";
 				this.state.actionCallback("start", this.state.button.Action);
 			} }
 			onMouseUp={ () => {
@@ -57,6 +55,7 @@ class Button extends Component {
 
 class ButtonLabel extends Component {
 	state = {
+		label: this.props.label,
 		button: this.props.button || DefaultButton(),
 		size: this.props.size
 	}
@@ -64,7 +63,7 @@ class ButtonLabel extends Component {
 	render = function() {
 		return (
 			<div className={`label ${this.state.size}`}>
-				{this.state.button.TextLabel}
+				{this.props.label || this.state.button.TextLabel}
 			</div>
 		)
 	}
@@ -72,6 +71,7 @@ class ButtonLabel extends Component {
 
 const DefaultRocker = function() {
 	return {
+		Label: "",
 		Top: DefaultButton(),
 		Bottom: DefaultButton()
 	}
@@ -86,7 +86,7 @@ class Rocker extends Component {
 
 	render = function() {
 		const upLabel = this.state.rocker.Top.Action ? ButtonIcons.UpArrow : ButtonIcons.NoAction;
-		const dwLabel = this.state.rocker.Bottom.Action ? ButtonIcons.DownArrow 	 : ButtonIcons.NoAction;
+		const dwLabel = this.state.rocker.Bottom.Action ? ButtonIcons.DownArrow : ButtonIcons.NoAction;
 
 
 		return (
@@ -104,14 +104,8 @@ class RockerLabel extends Component {
 	}
 	
 	render = function() {
-		console.log(this.state.rocker)
-		console.log(this.state.rocker.Top)
-		console.log(this.state.rocker.Bottom)
 		return (
-			<div className="rocker-label">
-				<ButtonLabel button={this.state.rocker.Top} size="small" />
-				<ButtonLabel button={this.state.rocker.Bottom} size="small" />
-			</div>
+			<ButtonLabel label={this.state.rocker.Label} size="medium" />
 		);
 	}
 }
