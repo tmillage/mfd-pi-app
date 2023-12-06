@@ -1,62 +1,103 @@
 {
-    "name" : "star-citizen",
-    "window": "test.txt",
-    "commands" : {
-        "pin1": "1",
-        "pin2": "2",
-        "pin3": "3",
-        "unlock": "{F8}",
-        "hostileNear": "",
-        "exitSeat": "Y",
-        "wipeHelmet": "^^o",
-        "gimbal": "",
-        "cheer": "",
-        "clap": "",
-        "salute": "",
-        "wave": "",
-        "friendNear": "",
-        "hostileNext": "5",
-        "hostilePrevious": "",
-        "dropItem": "",
-        "countermeasureMore": "",
-        "countermeasureLess": "",
-        "friendNext": "6",
-        "friendPrevious": ""
-    },
-    "pannels" : [
-        {
-            "position": "left",
-            "background": "STARCITIZEN_WHITE.png",
-            "buttons": [
-                {"label":"Pin 1", "command":"pin1"},
-                {"label":"Pin 2", "command":"pin2"},
-                {"label":"Pin 3", "command":"pin3"},
-                {"label":"Unlock", "command":"unlock"},
-                {"label":"", "command":""},
-                {"label":"Hstl Near", "command":"hostileNear"},
-                {"label":"Exit Seat", "command":"exitSeat"},
-                {"label":"Wipe Helmet", "command":"wipeHelmet"},
-                {"label":"Gimbal", "command":"gimbal"},
-                {"label":"", "command":""},
-                {"label":"Cheer", "command":"cheer"},
-                {"label":"Clap", "command":"clap"},
-                {"label":"Point", "command":"point"},
-                {"label":"Salute", "command":"salute"},
-                {"label":"Wave", "command":"wave"},
-                {"label":"", "command":""},
-                {"label":"", "command":""},
-                {"label":"", "command":""},
-                {"label":"", "command":""},
-                {"label":"Frnd Near", "command":"friendNear"},
-                {"label":"Hstl+", "command":"hostileNext"},
-                {"label":"Hstl-", "command":"hostilePrevious"},
-                {"label":"", "command":""},
-                {"label":"Drop", "command":"dropItem"},
-                {"label":"Cntr+", "command":"countermeasureMore"},
-                {"label":"Cntr-", "command":"countermeasureLess"},
-                {"label":"Frnd+", "command":"friendNext"},
-                {"label":"Frnd-", "command":"friendPrevious"}
-            ]
-        }
-    ]
+	"name" : "star-citizen",
+	"window": "test.txt",
+	"commands" : {
+		"pin1": "1",
+		"pin2": "2",
+		"pin3": "3",
+		"unlock": "{F8}",
+		"hostileNear": "",
+		"exitSeat": "Y",
+		"wipeHelmet": "^^o",
+		"gimbal": "",
+		"cheer": "",
+		"clap": "",
+		"salute": "",
+		"wave": "",
+		"friendNear": "",
+		"hostileNext": "5",
+		"hostilePrevious": "",
+		"dropItem": "",
+		"countermeasureMore": "",
+		"countermeasureLess": "",
+		"friendNext": "6",
+		"friendPrevious": ""
+	},
+	"pannels" : [
+		{
+			"Background": "STARCITIZEN_WHITE.png",
+			"Buttons": {
+				"Top": [
+					{ "TextLabel": "Pin 1", "Action": "Aqua"},
+					{ "TextLabel": "Pin 2", "Action": "Aquamarine"},
+					{ "TextLabel": "Pin 3", "Action": "Azure"},
+					{ "TextLabel": "Unlock", "Action": "Beige"}
+				],
+				"Left": [
+					{ "TextLabel": "HSTL NR", "Action": "Blue"},
+					{ "TextLabel": "EXIT SEAT", "Action": "Brown"},
+					{ "TextLabel": "Wipe Helmet", "Action": "BurlyWood"},
+					{ "TextLabel": "Gimbal", "Action": "CadetBlue"}
+				],
+				"Right": [
+					{ "TextLabel": "FRND NR", "Action": "CornflowerBlue"}
+				],
+				"Bottom": [
+					{ "TextLabel": "Wave", "Action": "Cornsilk"},
+					{ "TextLabel": "Salute", "Action": "Crimson"},
+					{ "TextLabel": "Point", "Action": "Cyan"},
+					{ "TextLabel": "Clap", "Action": "DarkBlue"},
+					{ "TextLabel": "Cheer", "Action": "DarkCyan"}
+				],
+				"Rocker": [
+					{
+						"Top": { "TextLabel": "FRND+", "Action": "AliceBlue"},
+						"Bottom": { "TextLabel": "FRND-", "Action": "AntiqueWhite"}
+					},
+					{
+						"Top": { "TextLabel": "HSTL+", "Action": "Bisque"},
+						"Bottom": { "TextLabel": "HSTL-", "Action": "BlanchedAlmond"}
+					},
+					{
+						"Top": { "TextLabel": "CNTR+", "Action": "Chartreuse"},
+						"Bottom": { "TextLabel": "CNTR-", "Action": "Chocolate"}
+					},
+					{
+						"Top": { "TextLabel": "", "Action": ""},
+						"Bottom": { "TextLabel": "Drop", "Action": "Coral"}
+					}
+				]
+			},
+			"buttons": [
+				{"label":"Pin 1", "command":"pin1"},
+				{"label":"Pin 2", "command":"pin2"},
+				{"label":"Pin 3", "command":"pin3"},
+				{"label":"Unlock", "command":"unlock"},
+				{"label":"", "command":""},
+				{"label":"Hstl Near", "command":"hostileNear"},
+				{"label":"Exit Seat", "command":"exitSeat"},
+				{"label":"Wipe Helmet", "command":"wipeHelmet"},
+				{"label":"Gimbal", "command":"gimbal"},
+				{"label":"", "command":""},
+				{"label":"Cheer", "command":"cheer"},
+				{"label":"Clap", "command":"clap"},
+				{"label":"Point", "command":"point"},
+				{"label":"Salute", "command":"salute"},
+				{"label":"Wave", "command":"wave"},
+				{"label":"", "command":""},
+				{"label":"", "command":""},
+				{"label":"", "command":""},
+				{"label":"", "command":""},
+				{"label":"Frnd Near", "command":"friendNear"},
+				{"label":"Hstl+", "command":"hostileNext"},
+				{"label":"Hstl-", "command":"hostilePrevious"},
+				{"label":"", "command":""},
+				{"label":"Drop", "command":"dropItem"},
+				{"label":"Cntr+", "command":"countermeasureMore"},
+				{"label":"Cntr-", "command":"countermeasureLess"},
+				{"label":"Frnd+", "command":"friendNext"},
+				{"label":"Frnd-", "command":"friendPrevious"}
+			]
+		}
+	]
 }

@@ -53,6 +53,7 @@ class App extends Component {
 
 	render() {
 		const app = this.state.app;
+
 		return (
 			<div className='App'>
 				
@@ -64,6 +65,7 @@ class App extends Component {
 						position={pannel.position}
 						background={pannel.background}
 						buttons={pannel.buttons}
+						mfd={pannel}
 						left = "25px"
 						bottom = "25px"
 					/>)

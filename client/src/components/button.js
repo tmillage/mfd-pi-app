@@ -9,13 +9,28 @@ const ButtonIcons =  {
 	
 }
 
+const DefaultButton = function() {
+	return {
+		TextLabel: "",
+		Action: ""
+	}
+}
+
 class Button extends Component {
 	state = {
-		action: this.props.action || function() {},
-		label: this.props.label || (this.props.action ? ButtonIcons.Default : ButtonIcons.NoAction),
-		pressedColor: this.props.action ? "green" : "red"
+		button: this.props.button || DefaultButton(),
+		actionCallback: this.props.actionCallback || function() { },
+		label: this.props.label,
+		pressedColor: "red"
 	}
 
+	componentDidMount () {
+		if(!this.state.label) {
+			this.state.label = this.state.button.Action ? ButtonIcons.Default : ButtonIcons.NoAction;
+			this.state.pressedColor = this.state.button.Action ? "green" : "red"
+			this.setState(this.state);
+		}
+	}
 	render = function() {
 		let button = null;
 		return (
@@ -25,12 +40,12 @@ class Button extends Component {
 			onMouseDown={ () => {
 				button.style.transition = "";
 				button.style.backgroundColor = this.state.pressedColor;
-				this.state.action("start")
+				this.state.actionCallback("start", this.state.button.Action);
 			} }
 			onMouseUp={ () => {
-				this.state.action("end");
 				button.style.transition = "background-color 1s linear";
 				button.style.background = "unset";
+				this.state.actionCallback("end", this.state.button.Action);
 			}}
 		>
 			<p>
@@ -42,30 +57,42 @@ class Button extends Component {
 
 class ButtonLabel extends Component {
 	state = {
-		label: this.props.label,
+		button: this.props.button || DefaultButton(),
 		size: this.props.size
 	}
 
 	render = function() {
 		return (
 			<div className={`label ${this.state.size}`}>
-				{this.state.label}
+				{this.state.button.TextLabel}
 			</div>
 		)
 	}
 }
 
+const DefaultRocker = function() {
+	return {
+		Top: DefaultButton(),
+		Bottom: DefaultButton()
+	}
+}
+
 class Rocker extends Component {
 	state = {
-		actionUp: this.props.actionUp,
-		actionDown: this.props.actionDown
+		action: this.props.action || function () { },
+		rocker: this.props.rocker || DefaultRocker(),
+		actionCallback: this.props.actionCallback || function() { }
 	}
 
 	render = function() {
+		const upLabel = this.state.rocker.Top.Action ? ButtonIcons.UpArrow : ButtonIcons.NoAction;
+		const dwLabel = this.state.rocker.Bottom.Action ? ButtonIcons.DownArrow 	 : ButtonIcons.NoAction;
+
+
 		return (
 			<div className="rocker">
-				<Button label={this.state.actionUp ? ButtonIcons.UpArrow : ButtonIcons.NoAction} action={this.state.actionUp} />
-				<Button label={this.state.actionUp ? ButtonIcons.DownArrow : ButtonIcons.NoAction} action={this.state.actionDown} />
+				<Button label={upLabel} button={this.state.rocker.Top} actionCallback={this.state.actionCallback} />
+				<Button label={dwLabel} button={this.state.rocker.Bottom} actionCallback={this.state.actionCallback} />
 			</div>
 		);
 	}
@@ -73,15 +100,17 @@ class Rocker extends Component {
 
 class RockerLabel extends Component {
 	state = {
-		labelUp: this.props.labelUp,
-		labelDown: this.props.labelDown
+		rocker: this.props.rocker || DefaultRocker()
 	}
 	
 	render = function() {
+		console.log(this.state.rocker)
+		console.log(this.state.rocker.Top)
+		console.log(this.state.rocker.Bottom)
 		return (
 			<div className="rocker-label">
-				<ButtonLabel label={this.state.labelUp} size="small" />
-				<ButtonLabel label={this.state.labelDown} size="small" />
+				<ButtonLabel button={this.state.rocker.Top} size="small" />
+				<ButtonLabel button={this.state.rocker.Bottom} size="small" />
 			</div>
 		);
 	}

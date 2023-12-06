@@ -130,18 +130,23 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-shrink: 0;
+	flex-grow: 0;
 }
 
 .rocker-label {
 	width: 47px;
 	display: flex;
 	flex-direction: column;
-	gap: var(--small-button-margin);
+}
+
+.label:empty {
+	visibility: hidden;
 }
 
 .label.small {
-	width: 48x;
-	height: 20px;
+	width: 48px;
+	height: 22px;
 }
 
 .label.medium {
