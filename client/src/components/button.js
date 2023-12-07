@@ -31,20 +31,30 @@ class Button extends Component {
 	}
 	render = function() {
 		let button = null;
+		const actionStart = (evt) => {
+			button.style.transition = "";
+			button.style.backgroundColor = this.state.button.Action !== "" ? "green" : "red";
+			this.state.actionCallback("start", this.state.button.Action);
+
+			evt.preventDefault();
+		}
+
+		const actionEnd = (evt) => {
+			button.style.transition = "background-color 1s linear";
+			button.style.background = "unset";
+			this.state.actionCallback("end", this.state.button.Action);
+
+			evt.preventDefault();
+		}
+
 		return (
 		<div
 			ref = { el => button = el }
 			className="button"
-			onMouseDown={ () => {
-				button.style.transition = "";
-				button.style.backgroundColor = this.state.button.Action !== "" ? "green" : "red";
-				this.state.actionCallback("start", this.state.button.Action);
-			} }
-			onMouseUp={ () => {
-				button.style.transition = "background-color 1s linear";
-				button.style.background = "unset";
-				this.state.actionCallback("end", this.state.button.Action);
-			}}
+			onMouseDown={ actionStart }
+			onTouchStart={ actionStart }
+			onMouseUp={ actionEnd }
+			onTouchEnd={ actionEnd }
 		>
 			<p>
 				{this.state.label}
