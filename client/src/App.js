@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MFD from './components/mfd';
 import './App.css';
+import { Button } from './components/button';
 
 class App extends Component {
 	state = {
@@ -30,7 +31,7 @@ class App extends Component {
 				this.leftMfd.setMFD(this.state.app.pannels[0]);
 				this.rightMfd.setMFD(this.state.app.pannels[1]);
 			}
-		}, 3000)
+		}, 15000)
 
 	}
 
@@ -58,24 +59,32 @@ class App extends Component {
 		callback();
 	}
 
+	swap = function () {
+		console.log(this.state.app.pannels);
+		if (this.leftMfd && this.leftMfd.setMFD) {
+			this.leftMfd.setMFD(this.state.app.pannels[0]);
+			this.rightMfd.setMFD(this.state.app.pannels[1]);
+		}
+	}
+
 	render() {
 		console.log("app render called")
 
 		return (
 			<div className='App'>
-				<div className='Header'>this is the header</div>
+				<div className='Header'><button style={{ fontSize: "48px" }} onClick={() => { this.swap() }}>swap</button></div>
 				<div className='Content'>
 					<div className='mfdPannel'>
-						<MFD ref={mfd => this.leftMfd = mfd} mfd={this.state.app.pannels[1]} />
+						<MFD ref={mfd => this.leftMfd = mfd} mfd={this.state.app.pannels[1]} id="left" />
 					</div>
 					<div id="clock" className='clockPannel'>
 						<div id="time"></div>
 					</div>
 					<div className='mfdPannel'>
-						<MFD ref={mfd => this.rightMfd = mfd} mfd={this.state.app.pannels[0]} />
+						<MFD ref={mfd => this.rightMfd = mfd} mfd={this.state.app.pannels[0]} id="right" />
 					</div>
 				</div>
-			</div>
+			</div >
 		)
 	}
 }

@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { VerticalButtons } from "./vertical-buttons";
-import { Button, ButtonLabel, Rocker, RockerLabel } from "./button";
 import { HorizontalButtons } from "./horizonal-buttons";
 import { VerticalLabels } from "./vertical-labels";
 import { HorizontalLabels } from "./horizontal-labels";
@@ -38,27 +37,36 @@ class MFD extends Component {
 		setTimeout(() => { el.style.background = '' }, 250);
 	}
 
-	setMFD = function (mfd) {
-		this.setState({ mfd: mfd });
+	setMFD = function (newMFD) {
+		console.log(`"MFD.setMFD" ${this.props.id}`);
+		this.setState({ mfd: newMFD });
 		this.leftButtonGroup.setButtons(
-			this.state.mfd.Rocker[0],
-			this.state.mfd.Left,
-			this.state.mfd.Rocker[2]
+			newMFD.Rocker[0],
+			newMFD.Left,
+			newMFD.Rocker[2]
 		);
+		this.rightButtonGroup.setButtons(
+			newMFD.Rocker[1],
+			newMFD.Right,
+			newMFD.Rocker[3]
+		);
+		this.topButtonGroup.setButtons(newMFD.Top);
+		this.bottomButtonGroup.setButtons(newMFD.Bottom);
 	}
 
 	render = function () {
-		let T = this;
-		let center = null;
+		this.center = null;
+		const T = this;
 
 		const setBackground = function (color) {
-			if (center) {
-				center.style.transition = color === "" ? "background-image 1s linear" : "";
-				center.style.backgroundImage = `radial-gradient(${color || "lightgreen"}, black)`;
+			if (T.center) {
+				T.center.style.transition = color === "" ? "background-image 1s linear" : "";
+				T.center.style.backgroundImage = `radial-gradient(${color || "lightgreen"}, black)`;
 			}
 		}
 
 		const actionCallback = function (type, color) {
+			console.log(`${type}:${color}`)
 			switch (type) {
 				case "start":
 					setBackground(color);
@@ -85,7 +93,7 @@ class MFD extends Component {
 						buttons={this.state.mfd.Top}
 						actionCallback={actionCallback}
 					/>
-					<div ref={el => center = el} className="centerScreen crt">
+					<div ref={el => this.center = el} className="centerScreen crt">
 						<div className="scanline"></div>
 						<HorizontalLabels
 							ref={topLabels => this.topLabels = topLabels}
@@ -117,7 +125,7 @@ class MFD extends Component {
 						/>
 					</div>
 					<HorizontalButtons
-						ref={vb => this.topButtonGroup = vb}
+						ref={vb => this.bottomButtonGroup = vb}
 						buttons={this.state.mfd.Bottom}
 						actionCallback={actionCallback}
 					/>

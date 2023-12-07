@@ -1,5 +1,5 @@
 const { Component } = require("react");
-const { DefaultButton, Button, Rocker } = require("./button");
+const { DefaultButton, DefaultRocker, Button, Rocker } = require("./button");
 
 class VerticalButtons extends Component {
 	setButtonLength = function (buttons) {
@@ -17,23 +17,31 @@ class VerticalButtons extends Component {
 		bottom: this.props.bottom
 	}
 
-	setButtons = function (top, buttons, bottom) {
+	setButtons = function (newTop, newButtons, newBottom) {
+		console.log("VerticalButtons.setButtons")
+		newButtons = this.setButtonLength(newButtons);
 		this.setState({
-			top: top,
-			buttons: buttons,
-			bottom: bottom
+			top: newTop,
+			buttons: newButtons,
+			bottom: newBottom
 		})
+
+		this.topRocker.setRocker(newTop || DefaultRocker());
+		for (let i = 0; i < 5; i++) {
+			this.buttons[i]?.setButton(newButtons[i])
+		}
+		this.bottomRocker.setRocker(newBottom || DefaultRocker());
 	}
 
 	render() {
-		console.log("render vertical buttons")
+		this.buttons = [];
 		return (
 			<div className="verticalButtons">
-				<Rocker rocker={this.state.top} actionCallback={this.state.actionCallback} />
+				<Rocker ref={topRocker => this.topRocker = topRocker} rocker={this.state.top} actionCallback={this.state.actionCallback} />
 				{this.state.buttons.map((button, index) => {
-					return (<Button key={index} button={button} actionCallback={this.state.actionCallback} />)
+					return (<Button key={index} ref={btn => this.buttons.push(btn)} button={button} actionCallback={this.state.actionCallback} />)
 				})}
-				<Rocker rocker={this.state.bottom} actionCallback={this.state.actionCallback} />
+				<Rocker ref={bottomRocker => this.bottomRocker = bottomRocker} rocker={this.state.bottom} actionCallback={this.state.actionCallback} />
 			</div>
 		)
 	}
