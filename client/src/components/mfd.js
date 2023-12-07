@@ -1,8 +1,13 @@
 import { Component } from "react";
-import { Button, ButtonLabel, Rocker, RockerLabel }  from "./button";
+import { VerticalButtons } from "./vertical-buttons";
+import { Button, ButtonLabel, Rocker, RockerLabel } from "./button";
+import { HorizontalButtons } from "./horizonal-buttons";
+import { VerticalLabels } from "./vertical-labels";
+import { HorizontalLabels } from "./horizontal-labels";
 
-const DefaultMFD = function() {
+const DefaultMFD = function () {
 	return {
+		Label: "",
 		Background: "",
 		Buttons: {
 			Top: [],
@@ -16,13 +21,6 @@ const DefaultMFD = function() {
 
 class MFD extends Component {
 	state = {
-		app: this.props.app,
-		background: this.props.background || "",
-		left: this.props.left || "",
-		right: this.props.right || "",
-		top: this.props.top || "",
-		bottom: this.props.bottom || "",
-
 		mfd: this.props.mfd || DefaultMFD()
 	}
 
@@ -31,29 +29,36 @@ class MFD extends Component {
 		const response = await fetch(`/send?app=${app}&cmd=${cmd}`);
 		const body = await response.json();
 		el.disabled = false;
-		
-		if(body.status === "OK") {
+
+		if (body.status === "OK") {
 			el.style.background = 'green';
 		} else {
 			el.style.background = 'red';
 		}
-		setTimeout(() => {el.style.background = ''}, 250);
+		setTimeout(() => { el.style.background = '' }, 250);
 	}
 
-	render = function() {
+	setMFD = function (mfd) {
+		this.setState({ mfd: mfd });
+		this.leftButtonGroup.setButtons(
+			this.state.mfd.Rocker[0],
+			this.state.mfd.Left,
+			this.state.mfd.Rocker[2]
+		);
+	}
+
+	render = function () {
 		let T = this;
 		let center = null;
-		const setBackground = function(color) {
-			if(center) {
+
+		const setBackground = function (color) {
+			if (center) {
 				center.style.transition = color === "" ? "background-image 1s linear" : "";
-				if(color === "") {
-					color = "lightgreen"
-				} 
-				center.style.backgroundImage = `radial-gradient(${color}, black)`;
+				center.style.backgroundImage = `radial-gradient(${color || "lightgreen"}, black)`;
 			}
 		}
 
-		const actionCallback = function(type, color) {
+		const actionCallback = function (type, color) {
 			switch (type) {
 				case "start":
 					setBackground(color);
@@ -61,86 +66,69 @@ class MFD extends Component {
 				case "end":
 					setBackground("");
 					break;
+				default:
 			}
 		}
-		console.log(this.state.mfd);
-		console.log(this.state.mfd.Buttons.Rocker);
-		return(
-			<div className={`mfd`} style={{left: this.props.left, right: this.props.right, top: this.props.top, bottom: this.props.bottom}}>
-				<div className="leftButtons">
-					<Rocker rocker={this.state.mfd.Buttons.Rocker[0]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Left[0]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Left[1]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Left[2]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Left[3]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Left[4]} actionCallback={actionCallback} />
-					<Rocker rocker={this.state.mfd.Buttons.Rocker[2]} actionCallback={actionCallback} />
-				</div>
+
+		return (
+			<div className={`mfd`} >
+				<VerticalButtons
+					ref={vb => this.leftButtonGroup = vb}
+					top={this.state.mfd.Rocker[0]}
+					buttons={this.state.mfd.Left}
+					bottom={this.state.mfd.Rocker[2]}
+					actionCallback={actionCallback}
+				/>
 				<div className="middleColumn">
-					<div className="topButtons">
-						<Button button={this.state.mfd.Buttons.Top[0]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Top[1]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Top[2]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Top[3]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Top[4]} actionCallback={actionCallback} />
-					</div>
+					<HorizontalButtons
+						ref={vb => this.topButtonGroup = vb}
+						buttons={this.state.mfd.Top}
+						actionCallback={actionCallback}
+					/>
 					<div ref={el => center = el} className="centerScreen crt">
 						<div className="scanline"></div>
-						<div className="topLabels">
-							<RockerLabel rocker={this.state.mfd.Buttons.Rocker[0]} />
-							<ButtonLabel button={this.state.mfd.Buttons.Top[0]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Top[1]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Top[2]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Top[3]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Top[4]} size="medium"  />
-							<RockerLabel rocker={this.state.mfd.Buttons.Rocker[1]} />
-						</div>
+						<HorizontalLabels
+							ref={topLabels => this.topLabels = topLabels}
+							left={this.state.mfd.Rocker[0]}
+							buttons={this.state.mfd.Top}
+							right={this.state.mfd.Rocker[1]}
+						/>
 						<div className="middleLabels">
-							<div className="leftLabels">
-								<ButtonLabel button={this.state.mfd.Buttons.Left[0]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Left[1]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Left[2]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Left[3]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Left[4]} size="large"  />
-							</div>
+							<VerticalLabels
+								ref={leftLabels => this.leftLabels = leftLabels}
+								buttons={this.state.mfd.Left}
+							/>
 							<div className="centerLabels">
-								<img className="background" src={this.state.mfd.Background} alt="a background"/>
+								<div className="mfdLabel">{this.state.mfd.Label}</div>
+								{this.state.mfd.Background !== "" &&
+									<img className="background" src={this.state.mfd.Background} alt="a background" />
+								}
 							</div>
-							<div className="rightLabels">
-								<ButtonLabel button={this.state.mfd.Buttons.Right[0]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Right[1]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Right[2]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Right[3]} size="large"  />
-								<ButtonLabel button={this.state.mfd.Buttons.Right[4]} size="large"  />
-							</div>
+							<VerticalLabels
+								ref={rightLabels => this.rightLabels = rightLabels}
+								buttons={this.state.mfd.Right}
+							/>
 						</div>
-						<div className="bottomLabels">
-							<RockerLabel rocker={this.state.mfd.Buttons.Rocker[2]} />
-							<ButtonLabel button={this.state.mfd.Buttons.Bottom[0]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Bottom[1]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Bottom[2]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Bottom[3]} size="medium"  />
-							<ButtonLabel button={this.state.mfd.Buttons.Bottom[4]} size="medium"  />
-							<RockerLabel rocker={this.state.mfd.Buttons.Rocker[3]} />
-						</div>
+						<HorizontalLabels
+							ref={bottomLabels => this.bottomLabels = bottomLabels}
+							left={this.state.mfd.Rocker[2]}
+							buttons={this.state.mfd.Bottom}
+							right={this.state.mfd.Rocker[3]}
+						/>
 					</div>
-					<div className="bottomButtons">
-						<Button button={this.state.mfd.Buttons.Bottom[0]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Bottom[1]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Bottom[2]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Bottom[3]} actionCallback={actionCallback} />
-						<Button button={this.state.mfd.Buttons.Bottom[4]} actionCallback={actionCallback} />
-					</div>
+					<HorizontalButtons
+						ref={vb => this.topButtonGroup = vb}
+						buttons={this.state.mfd.Bottom}
+						actionCallback={actionCallback}
+					/>
 				</div>
-				<div className="rightButtons">
-					<Rocker rocker={this.state.mfd.Buttons.Rocker[1]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Right[0]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Right[1]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Right[2]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Right[3]} actionCallback={actionCallback} />
-					<Button button={this.state.mfd.Buttons.Right[4]} actionCallback={actionCallback} />
-					<Rocker rocker={this.state.mfd.Buttons.Rocker[3]} actionCallback={actionCallback} />
-				</div>
+				<VerticalButtons
+					ref={vb => this.rightButtonGroup = vb}
+					top={this.state.mfd.Rocker[1]}
+					buttons={this.state.mfd.Right}
+					bottom={this.state.mfd.Rocker[3]}
+					actionCallback={actionCallback}
+				/>
 			</div>
 		)
 	}

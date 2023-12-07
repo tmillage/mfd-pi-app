@@ -35,8 +35,6 @@ class Button extends Component {
 			button.style.transition = "";
 			button.style.backgroundColor = this.state.button.Action !== "" ? "green" : "red";
 			this.state.actionCallback("start", this.state.button.Action);
-
-			evt.preventDefault();
 		}
 
 		const actionEnd = (evt) => {
@@ -44,7 +42,7 @@ class Button extends Component {
 			button.style.background = "unset";
 			this.state.actionCallback("end", this.state.button.Action);
 
-			evt.preventDefault();
+			try { evt.preventDefault(); } catch {}
 		}
 
 		return (
@@ -120,4 +118,4 @@ class RockerLabel extends Component {
 	}
 }
 
-export {Button, ButtonLabel, Rocker, RockerLabel}
+export {DefaultButton, Button, ButtonLabel, Rocker, RockerLabel}

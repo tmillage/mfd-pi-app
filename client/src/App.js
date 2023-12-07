@@ -8,45 +8,49 @@ class App extends Component {
 		Left: {
 			position: 'mfd-left',
 			background: 'STARCITIZEN_WHITE.png',
-			labels: ["Pin 1", "Pin 2","Pin 3","Unlock","", "Hstl Near", "Exit Seat", "Wipe Helmet", "Gimbal", "","Cheer","Clap", "Point", "Salute", "Wave", "", "", "", "", "Frnd Near", "Hstl+", "Hstl-", "", "Drop", "Cntr+", "Cntr-", "Frnd+", "Frnd-"]
+			labels: ["Pin 1", "Pin 2", "Pin 3", "Unlock", "", "Hstl Near", "Exit Seat", "Wipe Helmet", "Gimbal", "", "Cheer", "Clap", "Point", "Salute", "Wave", "", "", "", "", "Frnd Near", "Hstl+", "Hstl-", "", "Drop", "Cntr+", "Cntr-", "Frnd+", "Frnd-"]
 		},
 		Right: {
 			position: 'mfd-right',
 			background: 'STARCITIZEN_WHITE.png',
-			labels: ["Acpt", "Dcln","","Reset Head","Head Track", "Cycl Cfg", "VTOL", "Lights", " ATC ", "Auto Land","Gear","Flt Rdy", "Eng Pwr", "Shld Pwr", "Wep Pwr", "Reset", "Load 3", "Load 2", "Load 1", "Cam", "Ping-", "Ping+", "Open", "Close", "Lock", "Unlck", "FOV+", "FOV-"]
+			labels: ["Acpt", "Dcln", "", "Reset Head", "Head Track", "Cycl Cfg", "VTOL", "Lights", " ATC ", "Auto Land", "Gear", "Flt Rdy", "Eng Pwr", "Shld Pwr", "Wep Pwr", "Reset", "Load 3", "Load 2", "Load 1", "Cam", "Ping-", "Ping+", "Open", "Close", "Lock", "Unlck", "FOV+", "FOV-"]
 		}
 	};
 
 	componentDidMount() {
 		this.setTime();
-		this.setState()
 		window.addEventListener("touchstart", function onFirstTouch() {
 			document.addEventListener('contextmenu', event => event.preventDefault());
 
 			window.removeEventListener("touchstart", onFirstTouch, false);
-		}, false)
+		}, false);
+
+		setTimeout(() => {
+			if (this.leftMfd && this.leftMfd.setMFD) {
+				this.leftMfd.setMFD(this.state.app.pannels[0]);
+				this.rightMfd.setMFD(this.state.app.pannels[1]);
+			}
+		}, 3000)
 
 	}
 
 	runCommand = async (app, cmd) => {
 		fetch(`/send?app=${app}&cmd=${cmd}`);
 	}
-	
-	padZero = function(n) {
-		if( n<=9 )
+
+	padZero = function (n) {
+		if (n <= 9)
 			return '0' + n;
 		return n;
 	}
-	
-	setTime = function() {
-		const callback = function() {
+
+	setTime = function () {
+		const callback = function () {
 			var el = document.getElementById('time');
-			var el2 = document.getElementById('date');
 			var now = new Date();
-			if(el != null) {
-				el.innerHTML = now.toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
-				el2.innerHTML = now.toLocaleDateString([], {weekday: 'short', month: 'short', day: 'numeric'});
-				setTimeout(callback, 60000 - 1000*now.getSeconds() - now.getMilliseconds())
+			if (el != null) {
+				el.innerHTML = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+				setTimeout(callback, 60000 - 1000 * now.getSeconds() - now.getMilliseconds())
 			} else {
 				setTimeout(callback, 100)
 			}
@@ -55,27 +59,21 @@ class App extends Component {
 	}
 
 	render() {
-		const app = this.state.app;
+		console.log("app render called")
 
 		return (
 			<div className='App'>
-				
-				{app.pannels.map(function(pannel, index) {
-					return (
-					<MFD
-						key={index}
-						app={app.name}
-						position={pannel.position}
-						background={pannel.background}
-						buttons={pannel.buttons}
-						mfd={pannel}
-						left = "25px"
-						bottom = "25px"
-					/>)
-				})}
-				<div id="clock" >
-					<div id="time"></div>
-					<div id="date"></div>
+				<div className='Header'>this is the header</div>
+				<div className='Content'>
+					<div className='mfdPannel'>
+						<MFD ref={mfd => this.leftMfd = mfd} mfd={this.state.app.pannels[1]} />
+					</div>
+					<div id="clock" className='clockPannel'>
+						<div id="time"></div>
+					</div>
+					<div className='mfdPannel'>
+						<MFD ref={mfd => this.rightMfd = mfd} mfd={this.state.app.pannels[0]} />
+					</div>
 				</div>
 			</div>
 		)
