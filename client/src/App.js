@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import MFD from './components/mfd';
 import './App.css';
 

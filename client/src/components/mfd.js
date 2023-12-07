@@ -85,6 +85,7 @@ class MFD extends Component {
 						<Button button={this.state.mfd.Buttons.Top[4]} actionCallback={actionCallback} />
 					</div>
 					<div ref={el => center = el} className="centerScreen crt">
+						<div className="scanline"></div>
 						<div className="topLabels">
 							<RockerLabel rocker={this.state.mfd.Buttons.Rocker[0]} />
 							<ButtonLabel button={this.state.mfd.Buttons.Top[0]} size="medium"  />
