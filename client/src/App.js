@@ -20,7 +20,11 @@ class App extends Component {
 	componentDidMount() {
 		this.setTime();
 		this.setState()
-		//document.addEventListener('contextmenu', event => event.preventDefault());
+		window.addEventListener("touchstart", function onFirstTouch() {
+			document.addEventListener('contextmenu', event => event.preventDefault());
+
+			window.removeEventListener("touchstart", onFirstTouch, false);
+		}, false)
 
 	}
 
