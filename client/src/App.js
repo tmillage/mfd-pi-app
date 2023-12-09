@@ -26,13 +26,6 @@ class App extends Component {
 			window.removeEventListener("touchstart", onFirstTouch, false);
 		}, false);
 
-		setTimeout(() => {
-			if (this.leftMfd && this.leftMfd.setMFD) {
-				this.leftMfd.setMFD(this.state.app.pannels[0]);
-				this.rightMfd.setMFD(this.state.app.pannels[1]);
-			}
-		}, 15000)
-
 	}
 
 	runCommand = async (app, cmd) => {

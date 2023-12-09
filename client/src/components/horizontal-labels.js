@@ -1,32 +1,21 @@
-const { Component } = require("react");
-const { DefaultButton, ButtonLabel } = require("./button");
+const { ButtonLabel } = require("./button");
 
-class HorizontalLabels extends Component {
-	setButtonLength = function (buttons) {
-		buttons.length = 5;
+const HorizontalLabels = ({ left, buttons, right }) => {
+	const getLabels = function () {
+		var btns = [];
 		for (let i = 0; i < 5; i++) {
-			buttons[i] = buttons[i] || DefaultButton();
+			btns.push(<ButtonLabel key={i} button={buttons[i]} size="medium" />)
 		}
-		return buttons;
+		return btns;
 	}
 
-	state = {
-		left: this.props.left || DefaultButton(),
-		buttons: this.setButtonLength(this.props.buttons || []),
-		right: this.props.right || DefaultButton(),
-	}
-
-	render() {
-		return (
-			<div className="horizontalLabels">
-				<ButtonLabel button={this.state.left} size="medium" />
-				{this.state.buttons.map((button, index) => {
-					return (<ButtonLabel key={index} button={button} size="medium" />)
-				})}
-				<ButtonLabel button={this.state.right} size="medium" />
-			</div>
-		)
-	}
+	return (
+		<div className="horizontalLabels">
+			<ButtonLabel button={left} size="medium" />
+			{getLabels()}
+			<ButtonLabel button={right} size="medium" />
+		</div>
+	)
 }
 
 export { HorizontalLabels };

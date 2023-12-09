@@ -40,18 +40,6 @@ class MFD extends Component {
 	setMFD = function (newMFD) {
 		console.log(`"MFD.setMFD" ${this.props.id}`);
 		this.setState({ mfd: newMFD });
-		this.leftButtonGroup.setButtons(
-			newMFD.Rocker[0],
-			newMFD.Left,
-			newMFD.Rocker[2]
-		);
-		this.rightButtonGroup.setButtons(
-			newMFD.Rocker[1],
-			newMFD.Right,
-			newMFD.Rocker[3]
-		);
-		this.topButtonGroup.setButtons(newMFD.Top);
-		this.bottomButtonGroup.setButtons(newMFD.Bottom);
 	}
 
 	render = function () {
@@ -61,7 +49,7 @@ class MFD extends Component {
 		const setBackground = function (color) {
 			if (T.center) {
 				T.center.style.transition = color === "" ? "background-image 1s linear" : "";
-				T.center.style.backgroundImage = `radial-gradient(${color || "lightgreen"}, black)`;
+				T.center.style.backgroundImage = color === "" ? "" : `radial-gradient(${color}, black)`;
 			}
 		}
 
@@ -81,7 +69,6 @@ class MFD extends Component {
 		return (
 			<div className={`mfd`} >
 				<VerticalButtons
-					ref={vb => this.leftButtonGroup = vb}
 					top={this.state.mfd.Rocker[0]}
 					buttons={this.state.mfd.Left}
 					bottom={this.state.mfd.Rocker[2]}
@@ -89,21 +76,18 @@ class MFD extends Component {
 				/>
 				<div className="middleColumn">
 					<HorizontalButtons
-						ref={vb => this.topButtonGroup = vb}
 						buttons={this.state.mfd.Top}
 						actionCallback={actionCallback}
 					/>
 					<div ref={el => this.center = el} className="centerScreen crt">
 						<div className="scanline"></div>
 						<HorizontalLabels
-							ref={topLabels => this.topLabels = topLabels}
 							left={this.state.mfd.Rocker[0]}
 							buttons={this.state.mfd.Top}
 							right={this.state.mfd.Rocker[1]}
 						/>
 						<div className="middleLabels">
 							<VerticalLabels
-								ref={leftLabels => this.leftLabels = leftLabels}
 								buttons={this.state.mfd.Left}
 							/>
 							<div className="centerLabels">
@@ -113,25 +97,21 @@ class MFD extends Component {
 								}
 							</div>
 							<VerticalLabels
-								ref={rightLabels => this.rightLabels = rightLabels}
 								buttons={this.state.mfd.Right}
 							/>
 						</div>
 						<HorizontalLabels
-							ref={bottomLabels => this.bottomLabels = bottomLabels}
 							left={this.state.mfd.Rocker[2]}
 							buttons={this.state.mfd.Bottom}
 							right={this.state.mfd.Rocker[3]}
 						/>
 					</div>
 					<HorizontalButtons
-						ref={vb => this.bottomButtonGroup = vb}
 						buttons={this.state.mfd.Bottom}
 						actionCallback={actionCallback}
 					/>
 				</div>
 				<VerticalButtons
-					ref={vb => this.rightButtonGroup = vb}
 					top={this.state.mfd.Rocker[1]}
 					buttons={this.state.mfd.Right}
 					bottom={this.state.mfd.Rocker[3]}

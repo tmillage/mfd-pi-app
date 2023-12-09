@@ -1,28 +1,19 @@
-const { Component } = require("react");
-const { DefaultButton, ButtonLabel} = require("./button");
+const { ButtonLabel } = require("./button");
 
-class VerticalLabels extends Component {
-	setButtonLength = function(buttons) {
-		buttons.length = 5;
-		for(let i=0; i<5; i++) {
-			buttons[i] = buttons[i] || DefaultButton();
+const VerticalLabels = function ({ buttons }) {
+	const getLabels = function () {
+		var btns = [];
+		for (let i = 0; i < 5; i++) {
+			btns.push(<ButtonLabel key={i} button={buttons[i]} size="large" />)
 		}
-		return buttons;
+		return btns;
 	}
 
-	state = {
-		buttons: this.setButtonLength(this.props.buttons || []),
-	}
-
-	render() {
-		return (
-			<div className="verticalLabels">
-				{this.state.buttons.map((button, index) => {
-					return(<ButtonLabel key={index} button={button} size="large" />)
-				})}
-			</div>
-		)
-	}
+	return (
+		<div className="verticalLabels" size="medium">
+			{getLabels()}
+		</div>
+	)
 }
 
 export { VerticalLabels };

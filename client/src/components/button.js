@@ -1,9 +1,6 @@
-const { Component } = require("react");
-
-
 const ButtonIcons = {
-	Default: "\u25CB",
-	NoAction: "\u2297",
+	Default: "\u2D54",
+	NoAction: "\u2A02",
 	UpArrow: "\u2191",
 	DownArrow: "\u2193"
 
@@ -16,123 +13,79 @@ const DefaultButton = function () {
 	}
 }
 
-class Button extends Component {
-	state = {
-		actionCallback: this.props.actionCallback || function () { },
-		label: this.props.label || ButtonIcons.Default,
-		action: (this.props.button || DefaultButton()).Action
+const Button = ({ button, label, actionCallback }) => {
+
+	const getButton = () => {
+		return button || DefaultButton();
 	}
 
-	setButton = function (newButton) {
-		console.log("Button.setButton");
-		this.setState({ action: (newButton || DefaultButton()).Action });
-
+	const actionStart = (evt) => {
+		evt.target.style.transition = "";
+		evt.target.style.backgroundColor = getButton().Action !== "" ? "green" : "red";
+		actionCallback("start", getButton().Action);
 	}
 
-	componentDidMount() {
-		console.log("button mount");
-		const actionStart = (evt) => {
-			this.button.style.transition = "";
-			this.button.style.backgroundColor = this.state.action !== "" ? "green" : "red";
-			this.state.actionCallback("start", this.state.action);
+	const actionEnd = (evt) => {
+		evt.target.style.transition = "background-color 1s linear";
+		evt.target.style.background = "unset";
+		actionCallback("end", getButton().Action);
+
+		try { evt.preventDefault(); } catch { }
+	}
+
+	const buttonIcon = () => {
+		if (getButton().Action) {
+			return label || ButtonIcons.Default;
 		}
-
-		const actionEnd = (evt) => {
-			this.button.style.transition = "background-color 1s linear";
-			this.button.style.background = "unset";
-			this.state.actionCallback("end", this.state.action);
-
-			try { evt.preventDefault(); } catch { }
-		}
-
-
-		this.button.addEventListener("mousedown", actionStart, false);
-		this.button.addEventListener("touchstart", actionStart, false);
-		this.button.addEventListener("mouseup", actionEnd, false);
-		this.button.addEventListener("touchend", actionEnd, false);
-
+		return ButtonIcons.NoAction;
 	}
 
-	componentWillUnmount() {
-		console.log("button unmount");
-	}
-
-	render = function () {
-		this.button = null;
-
-		return (
-			<div
-				ref={el => this.button = el}
-				className="button"
-			>
-				<p>
-					{this.state.action ? this.state.label : ButtonIcons.NoAction}
-				</p>
-			</div>);
-	}
+	return (
+		<button
+			className="button"
+			onMouseDown={actionStart}
+			onTouchStart={actionStart}
+			onMouseUp={actionEnd}
+			onTouchEnd={actionEnd}
+		>
+			{buttonIcon()}
+		</button>);
 }
 
-class ButtonLabel extends Component {
-	state = {
-		label: this.props.label,
-		button: this.props.button || DefaultButton(),
-		size: this.props.size
-	}
+const ButtonLabel = ({ button, size }) => {
 
-	render = function () {
-		return (
-			<div className={`label ${this.state.size}`}>
-				{this.props.label || this.state.button.TextLabel}
-			</div>
-		)
-	}
+	return (
+		<div className={`label ${size}`}>
+			{(button || DefaultButton()).TextLabel}
+		</div>
+	)
 }
 
 const DefaultRocker = function () {
 	return {
-		Label: "",
+		TextLabel: "",
 		Top: DefaultButton(),
 		Bottom: DefaultButton()
 	}
 }
 
-class Rocker extends Component {
-	state = {
-		action: this.props.action || function () { },
-		rocker: this.props.rocker || DefaultRocker(),
-		actionCallback: this.props.actionCallback || function () { }
+const Rocker = ({ rocker, actionCallback }) => {
+	const getRocker = () => {
+		return rocker || DefaultRocker();
 	}
-
-	setRocker = function (newRocker) {
-		console.log("Rocker.setRocker");
-		this.setState({ rocker: newRocker });
-		this.topButton.setButton(newRocker.Top);
-		this.bottomButton.setButton(newRocker.Bottom);
-	}
-
-	render = function () {
-		this.topButton = null;
-		this.bottomButton = null;
-
-		return (
-			<div className="rocker">
-				<Button ref={btn => this.topButton = btn} label={ButtonIcons.UpArrow} button={this.state.rocker.Top} actionCallback={this.state.actionCallback} />
-				<Button ref={btn => this.bottomButton = btn} label={ButtonIcons.DownArrow} button={this.state.rocker.Bottom} actionCallback={this.state.actionCallback} />
-			</div>
-		);
-	}
+	return (
+		<div className="rocker">
+			<Button label={ButtonIcons.UpArrow} button={getRocker().Top} actionCallback={actionCallback} />
+			<Button label={ButtonIcons.DownArrow} button={getRocker().Bottom} actionCallback={actionCallback} />
+		</div>
+	);
 }
 
-class RockerLabel extends Component {
-	state = {
-		rocker: this.props.rocker || DefaultRocker()
-	}
+const RockerLabel = ({ rocker }) => {
 
-	render = function () {
-		return (
-			<ButtonLabel label={this.state.rocker.Label} size="medium" />
-		);
-	}
+	return (
+		<ButtonLabel label={rocker} size="medium" />
+	);
 }
 
 export { DefaultButton, Button, ButtonLabel, DefaultRocker, Rocker, RockerLabel }
