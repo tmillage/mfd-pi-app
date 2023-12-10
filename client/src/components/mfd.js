@@ -1,8 +1,10 @@
+import React from 'react';
 import { Component } from "react";
 import { VerticalButtons } from "./vertical-buttons";
 import { HorizontalButtons } from "./horizonal-buttons";
 import { VerticalLabels } from "./vertical-labels";
 import { HorizontalLabels } from "./horizontal-labels";
+import { Console } from "./console";
 
 const DefaultMFD = function () {
 	return {
@@ -19,6 +21,14 @@ const DefaultMFD = function () {
 }
 
 class MFD extends Component {
+	constructor(props) {
+		super(props)
+
+		this.actionCallback = this.actionCallback.bind(this);
+		this.setBackground = this.setBackground.bind(this);
+		this.console = React.createRef("");
+	}
+
 	state = {
 		mfd: this.props.mfd || DefaultMFD()
 	}
@@ -42,29 +52,33 @@ class MFD extends Component {
 		this.setState({ mfd: newMFD });
 	}
 
+
+
+	actionCallback = function (type, color) {
+		console.log(`${type}:${color}`)
+		console.log(this.console.current);
+		this.console.current.log(`${type}:${color}`)
+		switch (type) {
+			case "start":
+				this.setBackground(color);
+				break;
+			case "end":
+				this.setBackground("");
+				break;
+			default:
+		}
+	}
+
+	setBackground = function (color) {
+		if (this.center) {
+			this.center.style.transition = color === "" ? "background-image 1s linear" : "";
+			this.center.style.backgroundImage = color === "" ? "" : `radial-gradient(${color}, black)`;
+		}
+	}
+
 	render = function () {
 		this.center = null;
 		const T = this;
-
-		const setBackground = function (color) {
-			if (T.center) {
-				T.center.style.transition = color === "" ? "background-image 1s linear" : "";
-				T.center.style.backgroundImage = color === "" ? "" : `radial-gradient(${color}, black)`;
-			}
-		}
-
-		const actionCallback = function (type, color) {
-			console.log(`${type}:${color}`)
-			switch (type) {
-				case "start":
-					setBackground(color);
-					break;
-				case "end":
-					setBackground("");
-					break;
-				default:
-			}
-		}
 
 		return (
 			<div className={`mfd`} >
@@ -72,14 +86,14 @@ class MFD extends Component {
 					top={this.state.mfd.Rocker[0]}
 					buttons={this.state.mfd.Left}
 					bottom={this.state.mfd.Rocker[2]}
-					actionCallback={actionCallback}
+					actionCallback={this.actionCallback}
 				/>
 				<div className="middleColumn">
 					<HorizontalButtons
 						buttons={this.state.mfd.Top}
-						actionCallback={actionCallback}
+						actionCallback={this.actionCallback}
 					/>
-					<div ref={el => this.center = el} className="centerScreen crt">
+					<div ref={el => this.center = el} className="centerScreen crt" style={{ backgroundImage: this.state.mfd.Background }}>
 						<div className="scanline"></div>
 						<HorizontalLabels
 							left={this.state.mfd.Rocker[0]}
@@ -90,12 +104,7 @@ class MFD extends Component {
 							<VerticalLabels
 								buttons={this.state.mfd.Left}
 							/>
-							<div className="centerLabels">
-								<div className="mfdLabel">{this.state.mfd.Label}</div>
-								{this.state.mfd.Background !== "" &&
-									<img className="background" src={this.state.mfd.Background} alt="a background" />
-								}
-							</div>
+							<Console ref={this.console} label={this.state.mfd.Label} max="10" />
 							<VerticalLabels
 								buttons={this.state.mfd.Right}
 							/>
@@ -108,14 +117,14 @@ class MFD extends Component {
 					</div>
 					<HorizontalButtons
 						buttons={this.state.mfd.Bottom}
-						actionCallback={actionCallback}
+						actionCallback={this.actionCallback}
 					/>
 				</div>
 				<VerticalButtons
 					top={this.state.mfd.Rocker[1]}
 					buttons={this.state.mfd.Right}
 					bottom={this.state.mfd.Rocker[3]}
-					actionCallback={actionCallback}
+					actionCallback={this.actionCallback}
 				/>
 			</div>
 		)

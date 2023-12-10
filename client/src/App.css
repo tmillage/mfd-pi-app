@@ -51,6 +51,19 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	z-index: 400;
+	animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+
+	0% {
+		transform: translate(-50%, -50%) rotateY(-90deg);
+	}
+
+	100% {
+		transform: translate(-50%, -50%) rotateY(90deg);
+	}
 }
 
 .mfd {
@@ -59,8 +72,6 @@ body {
 	flex-direction: row;
 }
 
-.topButtons,
-.bottomButtons,
 .horizontalButtons {
 	margin: var(--button-margin);
 	gap: var(--button-margin);
@@ -146,16 +157,6 @@ body {
 	flex-direction: row;
 }
 
-.centerLabels {
-	flex-grow: 1;
-}
-
-.mfdLabel {
-	text-align: center;
-	font-size: 36px;
-	color: white;
-}
-
 .label {
 	overflow: hidden;
 	border: 1px solid green;
@@ -237,4 +238,42 @@ body {
 	100% {
 		bottom: 0%;
 	}
+}
+
+.console {
+	flex-grow: 1;
+	position: relative;
+}
+
+.mfdLabel {
+	text-align: center;
+	font-size: 36px;
+	color: white;
+}
+
+.mfdOutput {
+	color: black;
+	font-size: 24px;
+	font-weight: bold;
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 280px;
+	width: 220px;
+	word-break: break-all;
+	padding: 10px;
+}
+
+.mfdOutput div:not(:first-child) {
+	visibility: visible;
+	color: grey;
+	-webkit-transition: color 1s;
+	transition: color 1s;
+}
+
+.mfdOutput div.second {
+	color: black;
+}
+
+.mfdOutput::-webkit-scrollbar {
+	display: none;
 }
