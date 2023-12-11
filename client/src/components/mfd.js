@@ -1,5 +1,4 @@
-import React from 'react';
-import { Component } from "react";
+import React, { useRef, createRef } from 'react';
 import { VerticalButtons } from "./vertical-buttons";
 import { HorizontalButtons } from "./horizonal-buttons";
 import { VerticalLabels } from "./vertical-labels";
@@ -18,20 +17,12 @@ const DefaultMFD = function () {
 	}
 }
 
-class MFD extends Component {
-	constructor(props) {
-		super(props)
+const MFD = function ({ mfd }) {
+	console.log(mfd)
+	const consoleEl = useRef("");
+	const center = createRef("");
 
-		this.actionCallback = this.actionCallback.bind(this);
-		this.setBackground = this.setBackground.bind(this);
-		this.console = React.createRef("");
-	}
-
-	state = {
-		mfd: this.props.mfd || DefaultMFD()
-	}
-
-	runCommand = async (el, app, cmd) => {
+	const runCommand = async (el, app, cmd) => {
 		el.disabled = true;
 		const response = await fetch(`/send?app=${app}&cmd=${cmd}`);
 		const body = await response.json();
@@ -45,88 +36,78 @@ class MFD extends Component {
 		setTimeout(() => { el.style.background = '' }, 250);
 	}
 
-	setMFD = function (newMFD) {
-		console.log(`"MFD.setMFD" ${this.props.id}`);
-		this.setState({ mfd: newMFD });
-	}
 
 
-
-	actionCallback = function (type, color) {
-		console.log(`${type}:${color}`)
-		console.log(this.console.current);
-		this.console.current.log(`${type}:${color}`)
+	const actionCallback = function (type, color) {
+		console.log(consoleEl)
+		console.log(consoleEl.current)
+		consoleEl.current.log(`${type}:${color}`)
 		switch (type) {
 			case "start":
-				this.setBackground(color);
+				setBackground(color);
 				break;
 			case "end":
-				this.setBackground("");
+				setBackground("");
 				break;
 			default:
 		}
-	}
+	}.bind(this);
 
-	setBackground = function (color) {
-		if (this.center) {
-			this.center.style.transition = color === "" ? "background-image 1s linear" : "";
-			this.center.style.backgroundImage = color === "" ? "" : `radial-gradient(${color}, black)`;
+	const setBackground = function (color) {
+		if (center.current) {
+			center.current.style.transition = color === "" ? "background-image 1s linear" : "";
+			center.current.style.backgroundImage = color === "" ? "" : `radial-gradient(${color}, black)`;
 		}
-	}
+	};
 
-	render = function () {
-		this.center = null;
-		const T = this;
-
-		return (
-			<div className={`mfd`} >
-				<VerticalButtons
-					top={this.state.mfd.Rocker[0]}
-					buttons={this.state.mfd.Left}
-					bottom={this.state.mfd.Rocker[2]}
-					actionCallback={this.actionCallback}
+	return (
+		<div className={`mfd`} >
+			<VerticalButtons
+				top={mfd.Rocker[0]}
+				buttons={mfd.Left}
+				bottom={mfd.Rocker[2]}
+				actionCallback={actionCallback}
+			/>
+			<div className="middleColumn">
+				<HorizontalButtons
+					buttons={mfd.Top}
+					actionCallback={actionCallback}
 				/>
-				<div className="middleColumn">
-					<HorizontalButtons
-						buttons={this.state.mfd.Top}
-						actionCallback={this.actionCallback}
+				<div ref={center} className="centerScreen crt" style={{ backgroundImage: mfd.Background }}>
+					<div className="scanline"></div>
+					<HorizontalLabels
+						left={mfd.Rocker[0]}
+						buttons={mfd.Top}
+						right={mfd.Rocker[1]}
 					/>
-					<div ref={el => this.center = el} className="centerScreen crt" style={{ backgroundImage: this.state.mfd.Background }}>
-						<div className="scanline"></div>
-						<HorizontalLabels
-							left={this.state.mfd.Rocker[0]}
-							buttons={this.state.mfd.Top}
-							right={this.state.mfd.Rocker[1]}
+					<div className="middleLabels">
+						<VerticalLabels
+							buttons={mfd.Left}
 						/>
-						<div className="middleLabels">
-							<VerticalLabels
-								buttons={this.state.mfd.Left}
-							/>
-							<Console ref={this.console} label={this.state.mfd.Label} max="10" />
-							<VerticalLabels
-								buttons={this.state.mfd.Right}
-							/>
-						</div>
-						<HorizontalLabels
-							left={this.state.mfd.Rocker[2]}
-							buttons={this.state.mfd.Bottom}
-							right={this.state.mfd.Rocker[3]}
+						<Console ref={consoleEl} label={mfd.Label} max="10" />
+						<VerticalLabels
+							buttons={mfd.Right}
 						/>
 					</div>
-					<HorizontalButtons
-						buttons={this.state.mfd.Bottom}
-						actionCallback={this.actionCallback}
+					<HorizontalLabels
+						left={mfd.Rocker[2]}
+						buttons={mfd.Bottom}
+						right={mfd.Rocker[3]}
 					/>
 				</div>
-				<VerticalButtons
-					top={this.state.mfd.Rocker[1]}
-					buttons={this.state.mfd.Right}
-					bottom={this.state.mfd.Rocker[3]}
-					actionCallback={this.actionCallback}
+				<HorizontalButtons
+					buttons={mfd.Bottom}
+					actionCallback={actionCallback}
 				/>
 			</div>
-		)
-	}
+			<VerticalButtons
+				top={mfd.Rocker[1]}
+				buttons={mfd.Right}
+				bottom={mfd.Rocker[3]}
+				actionCallback={actionCallback}
+			/>
+		</div>
+	)
 }
 
 export { MFD, DefaultMFD };

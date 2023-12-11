@@ -1,54 +1,37 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MFD, DefaultMFD } from './components/mfd';
+import io from 'socket.io-client';
 import './App.css';
 
-class App extends Component {
-	constructor(props) {
-		super(props);
-	}
+const App = function () {
+	const defaultMFD = DefaultMFD();
 
-	state = {
-		app: {
-		},
-		Left: {
-			position: 'mfd-left',
-			background: 'STARCITIZEN_WHITE.png',
-			labels: ["Pin 1", "Pin 2", "Pin 3", "Unlock", "", "Hstl Near", "Exit Seat", "Wipe Helmet", "Gimbal", "", "Cheer", "Clap", "Point", "Salute", "Wave", "", "", "", "", "Frnd Near", "Hstl+", "Hstl-", "", "Drop", "Cntr+", "Cntr-", "Frnd+", "Frnd-"]
-		},
-		Right: {
-			position: 'mfd-right',
-			background: 'STARCITIZEN_WHITE.png',
-			labels: ["Acpt", "Dcln", "", "Reset Head", "Head Track", "Cycl Cfg", "VTOL", "Lights", " ATC ", "Auto Land", "Gear", "Flt Rdy", "Eng Pwr", "Shld Pwr", "Wep Pwr", "Reset", "Load 3", "Load 2", "Load 1", "Cam", "Ping-", "Ping+", "Open", "Close", "Lock", "Unlck", "FOV+", "FOV-"]
-		}
-	};
+	const [app, setApp] = useState(null);
+	const [leftMfd, setLeftMfd] = useState(defaultMFD);
+	const [rightMfd, setRightMfd] = useState(defaultMFD);
 
-	componentDidMount() {
-		this.setTime();
-		window.addEventListener("touchstart", function onFirstTouch() {
-			document.addEventListener('contextmenu', event => event.preventDefault());
 
-			window.removeEventListener("touchstart", onFirstTouch, false);
-		}, false);
-	}
-
-	getApp() {
+	const getApp = async function () {
 		const app = fetch("/MFD/1")
-			.then((value) => { return value });
-		console.log(app);
+			.then((response) => response.json())
+			.then(data => {
+				setApp(data);
+				return data;
+			})
 		return app;
 	}
 
-	runCommand = async (app, cmd) => {
+	const runCommand = async (app, cmd) => {
 		fetch(`/send?app=${app}&cmd=${cmd}`);
 	}
 
-	padZero = function (n) {
+	const padZero = function (n) {
 		if (n <= 9)
 			return '0' + n;
 		return n;
 	}
 
-	setTime = function () {
+	const setTime = function () {
 		const callback = function () {
 			var el = document.getElementById('time');
 			var now = new Date();
@@ -62,53 +45,49 @@ class App extends Component {
 		callback();
 	}
 
-	swap = async function () {
-		/*const response = await fetch("/MFD/1");
-		console.log(response);
-
-		const data = await response.json();
-		
-		console.log(data);
-
-		const app = eval(data);
-		console.log(app)*/
-		const response = await fetch("/MFD/1")
-			.then((response) => response.json())
+	const swap = async function () {
+		getApp()
 			.then(data => {
-				console.log(data)
-				console.log(data.name)
-				this.setState({ app: data })
-				this.leftMfd.setMFD(data.pannels[0]);
-				this.rightMfd.setMFD(data.pannels[1]);
+				setLeftMfd(data.pannels[0]);
+				setRightMfd(data.pannels[1]);
 			})
 			.catch((error) => console.log(error))
-		/*console.log(this.state.app.pannels);
-		if (this.leftMfd && this.leftMfd.setMFD) {
-			this.leftMfd.setMFD(this.state.app.pannels[0]);
-			this.rightMfd.setMFD(this.state.app.pannels[1]);
-		}*/
+
 	}
 
-	render() {
-		console.log("app render called")
+	useEffect(() => {
+		if (!app || !app.curent) {
+			getApp()
+				.then(data => {
+					setLeftMfd(data.pannels[1]);
+					setRightMfd(data.pannels[0]);
+				})
+		}
+		setTime();
+		window.addEventListener("touchstart", function onFirstTouch() {
+			document.addEventListener('contextmenu', event => event.preventDefault());
 
-		return (
-			<div className='App'>
-				<div className='Header'><button style={{ fontSize: "48px" }} onClick={() => { this.swap() }}>swap</button></div>
-				<div className='Content'>
-					<div className='mfdPannel'>
-						<MFD ref={mfd => this.leftMfd = mfd} mfd={DefaultMFD()} id="left" />
-					</div>
-					<div id="clock" className='clockPannel'>
-						<div id="time"></div>
-					</div>
-					<div className='mfdPannel'>
-						<MFD ref={mfd => this.rightMfd = mfd} mfd={DefaultMFD()} id="right" />
-					</div>
+			window.removeEventListener("touchstart", onFirstTouch, false);
+		}, false);
+	}, [])
+
+
+	return (
+		<div className='App'>
+			<div className='Header'><button style={{ fontSize: "48px" }} onClick={swap}>swap</button></div>
+			<div className='Content'>
+				<div className='mfdPannel'>
+					<MFD mfd={leftMfd} id="left" />
 				</div>
-			</div >
-		)
-	}
+				<div id="clock" className='clockPannel'>
+					<div id="time"></div>
+				</div>ri
+				<div className='mfdPannel'>
+					<MFD mfd={rightMfd} id="right" />
+				</div>
+			</div>
+		</div >
+	)
 }
 
 export default App;

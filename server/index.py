@@ -2,7 +2,6 @@ from flask import Flask, request
 from flask_restx import Resource, Api
 from flask_cors import CORS
 import json
-import os
 
 app = Flask(__name__)
 CORS(app)

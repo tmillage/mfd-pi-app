@@ -1,55 +1,33 @@
-import { Component, createRef } from "react";
+import { forwardRef, useState, createRef, useEffect, useImperativeHandle } from "react";
 
-class Console extends Component {
-	constructor(props) {
-		super(props);
+const ConsoleFunction = function (props, ref) {
+	const el = createRef();
+	const [lines, setLines] = useState([])
+	const [nextId, setNextid] = useState(0);
 
-		this.el = createRef("");
-	}
+	useImperativeHandle(ref, () => {
+		console.log("useImperativeHandle")
+		return {
+			log(text) {
+				var newLine = { id: nextId, data: text }
+				let newLines = [newLine, ...lines];
+				const maxLength = props.max || 20;
+				if (newLines.length > maxLength) {
+					newLines.length = maxLength;
+				}
+				console.log(newLines)
 
-	state = {
-		nextId: 0,
-		lines: []
-	}
-
-	log = function (text) {
-		var newLine = { id: this.state.nextId, data: text }
-		let newLines = new Array(newLine, ...this.state.lines);
-		const maxLength = this.props.max || 50;
-		if (newLines.length > maxLength) {
-			newLines.length = maxLength;
+				setLines(newLines);
+				setNextid(n => n + 1);
+			}
 		}
+	}, [lines, nextId, props.max]);
 
-		this.setState({
-			nextId: this.state.nextId + 1,
-			lines: newLines
-		});
-	}
-
-	render = function () {
-		console.log("render")
-		return (
-			<div ref={this.el} className="console">
-				<div className="mfdLabel">{this.props.label || ""}</div>
-				<div
-					className="mfdOutput"
-				>
-					{this.state.lines.map((line, index) => {
-						return (<div key={line.id} className={line.id} >{line.data}</div>);
-					})}
-				</div>
-			</div >
-		)
-	}
-
-	componentDidUpdate = () => {
-		console.log("component did update");
-		const lines = this.el.current.querySelectorAll(".mfdOutput > div");
-		console.log(lines);
+	useEffect(() => {
+		const lines = el.current.querySelectorAll(".mfdOutput > div");
 		const second = lines[1]
 		if (second) {
 			second.classList.add("second");
-			console.log(second)
 			setTimeout(() => {
 				console.log("timout");
 				if (second) {
@@ -58,8 +36,22 @@ class Console extends Component {
 				}
 			}, 100);
 		}
-		//this.el.current.scrollTop = this.el.current.scrollHeight
-	}
+	}, [lines, el]);
+
+	return (
+		<div ref={el} className="console">
+			<div className="mfdLabel">{props.label || ""}</div>
+			<div
+				className="mfdOutput"
+			>
+				{lines.map((line) => {
+					return (<div key={line.id} className={line.id} >{line.data}</div>);
+				})}
+			</div>
+		</div >
+	)
 }
+
+const Console = forwardRef(ConsoleFunction);
 
 export { Console };
