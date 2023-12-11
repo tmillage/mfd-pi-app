@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import MFD from './components/mfd';
+import { MFD, DefaultMFD } from './components/mfd';
 import './App.css';
-import { Button } from './components/button';
 
 class App extends Component {
+	constructor(props) {
+		super(props);
+	}
+
 	state = {
-		app: require(`./applications/star-citizen.json`),
+		app: {
+		},
 		Left: {
 			position: 'mfd-left',
 			background: 'STARCITIZEN_WHITE.png',
@@ -25,7 +29,13 @@ class App extends Component {
 
 			window.removeEventListener("touchstart", onFirstTouch, false);
 		}, false);
+	}
 
+	getApp() {
+		const app = fetch("/MFD/1")
+			.then((value) => { return value });
+		console.log(app);
+		return app;
 	}
 
 	runCommand = async (app, cmd) => {
@@ -52,12 +62,31 @@ class App extends Component {
 		callback();
 	}
 
-	swap = function () {
-		console.log(this.state.app.pannels);
+	swap = async function () {
+		/*const response = await fetch("/MFD/1");
+		console.log(response);
+
+		const data = await response.json();
+		
+		console.log(data);
+
+		const app = eval(data);
+		console.log(app)*/
+		const response = await fetch("/MFD/1")
+			.then((response) => response.json())
+			.then(data => {
+				console.log(data)
+				console.log(data.name)
+				this.setState({ app: data })
+				this.leftMfd.setMFD(data.pannels[0]);
+				this.rightMfd.setMFD(data.pannels[1]);
+			})
+			.catch((error) => console.log(error))
+		/*console.log(this.state.app.pannels);
 		if (this.leftMfd && this.leftMfd.setMFD) {
 			this.leftMfd.setMFD(this.state.app.pannels[0]);
 			this.rightMfd.setMFD(this.state.app.pannels[1]);
-		}
+		}*/
 	}
 
 	render() {
@@ -68,13 +97,13 @@ class App extends Component {
 				<div className='Header'><button style={{ fontSize: "48px" }} onClick={() => { this.swap() }}>swap</button></div>
 				<div className='Content'>
 					<div className='mfdPannel'>
-						<MFD ref={mfd => this.leftMfd = mfd} mfd={this.state.app.pannels[1]} id="left" />
+						<MFD ref={mfd => this.leftMfd = mfd} mfd={DefaultMFD()} id="left" />
 					</div>
 					<div id="clock" className='clockPannel'>
 						<div id="time"></div>
 					</div>
 					<div className='mfdPannel'>
-						<MFD ref={mfd => this.rightMfd = mfd} mfd={this.state.app.pannels[0]} id="right" />
+						<MFD ref={mfd => this.rightMfd = mfd} mfd={DefaultMFD()} id="right" />
 					</div>
 				</div>
 			</div >

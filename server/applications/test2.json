@@ -1,0 +1,7 @@
+{
+    "window": "test2.txt",
+    "commands" : {
+        "three": "qwerty",
+        "four": "zxcvbn"
+    }
+}

@@ -10,13 +10,11 @@ const DefaultMFD = function () {
 	return {
 		Label: "",
 		Background: "",
-		Buttons: {
-			Top: [],
-			Left: [],
-			Right: [],
-			Bottom: [],
-			Rocker: []
-		}
+		Top: [],
+		Left: [],
+		Right: [],
+		Bottom: [],
+		Rocker: []
 	}
 }
 
@@ -131,4 +129,4 @@ class MFD extends Component {
 	}
 }
 
-export default MFD;
+export { MFD, DefaultMFD };
