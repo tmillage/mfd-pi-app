@@ -1,7 +1,7 @@
 {
-	"name" : "star-citizen",
+	"name": "star-citizen",
 	"window": "test.txt",
-	"commands" : {
+	"commands": {
 		"pin1": "1",
 		"pin2": "2",
 		"pin3": "3",
@@ -23,68 +23,129 @@
 		"friendNext": "6",
 		"friendPrevious": ""
 	},
-	"pannels" : [
+	"pannels": [
 		{
 			"Label": "Targeting",
 			"Background": "STARCITIZEN_WHITE.png",
 			"Top": [
-				{ "TextLabel": "Pin 1", "Action": "Aqua"},
-				{ "TextLabel": "Pin 2", "Action": "Aquamarine"},
-				{ "TextLabel": "Pin 3", "Action": "Azure"},
-				{ "TextLabel": "Unlock", "Action": "Beige"}
+				{
+					"TextLabel": "Pin 1",
+					"Action": "Aqua"
+				},
+				{
+					"TextLabel": "Pin 2",
+					"Action": "Aquamarine"
+				},
+				{
+					"TextLabel": "Pin 3",
+					"Action": "Azure"
+				},
+				{
+					"TextLabel": "Unlock",
+					"Action": "Beige"
+				}
 			],
 			"Left": [
-				{ "TextLabel": "FRND NR", "Action": "CornflowerBlue"}
+				{
+					"TextLabel": "FRND NR",
+					"Action": "CornflowerBlue"
+				}
 			],
 			"Right": [
-				{ "TextLabel": "HSTL NR", "Action": "Blue"},
-				{ "TextLabel": "EXIT SEAT", "Action": "Brown"},
-				{ "TextLabel": "Wipe Helmet", "Action": "BurlyWood"},
-				{ "TextLabel": "Gimbal", "Action": "CadetBlue"}
+				{
+					"TextLabel": "HSTL NR",
+					"Action": "Blue"
+				},
+				{
+					"TextLabel": "EXIT SEAT",
+					"Action": "Brown"
+				},
+				{
+					"TextLabel": "Wipe Helmet",
+					"Action": "BurlyWood"
+				},
+				{
+					"TextLabel": "Gimbal",
+					"Action": "CadetBlue"
+				}
 			],
 			"Bottom": [
-				{ "TextLabel": "Wave", "Action": "Cornsilk"},
-				{ "TextLabel": "Salute", "Action": "Crimson"},
-				{ "TextLabel": "Point", "Action": "Cyan"},
-				{ "TextLabel": "Clap", "Action": "DarkBlue"},
-				{ "TextLabel": "Cheer", "Action": "DarkCyan"}
+				{
+					"TextLabel": "Wave",
+					"Action": "Cornsilk"
+				},
+				{
+					"TextLabel": "Salute",
+					"Action": "Crimson"
+				},
+				{
+					"TextLabel": "Point",
+					"Action": "Cyan"
+				},
+				{
+					"TextLabel": "Clap",
+					"Action": "DarkBlue"
+				},
+				{
+					"TextLabel": "Cheer",
+					"Action": "DarkCyan"
+				}
 			],
 			"Rocker": [
 				{
 					"TextLabel": "FRND",
-					"Top": { "TextLabel": "FRND+", "Action": "AliceBlue"},
-					"Bottom": { "TextLabel": "FRND-", "Action": "AntiqueWhite"}
+					"Top": {
+						"TextLabel": "FRND+",
+						"Action": "AliceBlue"
+					},
+					"Bottom": {
+						"TextLabel": "FRND-",
+						"Action": "AntiqueWhite"
+					}
 				},
 				{
 					"TextLabel": "HSTL",
-					"Top": { "TextLabel": "HSTL+", "Action": "Bisque"},
-					"Bottom": { "TextLabel": "HSTL-", "Action": "BlanchedAlmond"}
+					"Top": {
+						"TextLabel": "HSTL+",
+						"Action": "Bisque"
+					},
+					"Bottom": {
+						"TextLabel": "HSTL-",
+						"Action": "BlanchedAlmond"
+					}
 				},
 				{
 					"TextLabel": "CNTR",
-					"Top": { "TextLabel": "CNTR+", "Action": "Chartreuse"},
-					"Bottom": { "TextLabel": "CNTR-", "Action": "Chocolate"}
+					"Top": {
+						"TextLabel": "CNTR+",
+						"Action": "Chartreuse"
+					},
+					"Bottom": {
+						"TextLabel": "CNTR-",
+						"Action": "Chocolate"
+					}
 				},
 				{
 					"TextLabel": "Drop",
-					"Top": { "TextLabel": "", "Action": ""},
-					"Bottom": { "TextLabel": "Drop", "Action": "Coral"}
+					"Top": {
+						"TextLabel": "",
+						"Action": ""
+					},
+					"Bottom": {
+						"TextLabel": "Drop",
+						"Action": "Coral"
+					}
 				}
 			]
 		},
 		{
 			"Label": "Flight",
 			"Background": "STARCITIZEN_WHITE.png",
-			"Top": [
-			],
-			"Left": [
-			],
-			"Right": [
-			],
-			"Bottom": [
-			],
-			"Rocker": [
-			]
+			"Top": [],
+			"Left": [],
+			"Right": [],
+			"Bottom": [],
+			"Rocker": []
 		}
 	]
 }
