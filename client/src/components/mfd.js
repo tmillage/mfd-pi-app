@@ -22,25 +22,7 @@ const MFD = function ({ mfd }) {
 	const consoleEl = useRef("");
 	const center = createRef("");
 
-	const runCommand = async (el, app, cmd) => {
-		el.disabled = true;
-		const response = await fetch(`/send?app=${app}&cmd=${cmd}`);
-		const body = await response.json();
-		el.disabled = false;
-
-		if (body.status === "OK") {
-			el.style.background = 'green';
-		} else {
-			el.style.background = 'red';
-		}
-		setTimeout(() => { el.style.background = '' }, 250);
-	}
-
-
-
 	const actionCallback = function (type, color) {
-		console.log(consoleEl)
-		console.log(consoleEl.current)
 		consoleEl.current.log(`${type}:${color}`)
 		switch (type) {
 			case "start":
@@ -51,7 +33,7 @@ const MFD = function ({ mfd }) {
 				break;
 			default:
 		}
-	}.bind(this);
+	};
 
 	const setBackground = function (color) {
 		if (center.current) {
