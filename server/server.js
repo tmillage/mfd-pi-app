@@ -23,12 +23,20 @@ wsServer.on('connection', function (connection) {
 	clients[userId] = connection;
 	console.log(`${userId} connected.`);
 
-	connection.on('message', function (message) {
-		const data = JSON.parse(message);
-		console.log(data);
-		if (data.type === 'getApp') {
-			const app = require(`./applications/${data.data.name}.json`);
-			connection.send(JSON.stringify({ type: 'app', data: app }));
+	let app = null;
+
+	connection.on('message', function (json) {
+		const message = JSON.parse(json);
+		console.log(message);
+		switch (message.type) {
+			case "getApp":
+				app = require(`./applications/${message.data.name}.json`);
+				connection.send(JSON.stringify({ type: 'app', data: app }));
+				break;
+			case "action":
+				const keybind = app.commands[message.data.action] || "no keybind";
+				connection.send(JSON.stringify({ type: 'actionResponse', data: { pannel: 0, keybind: keybind } }));
+				break;
 		}
 	});
 

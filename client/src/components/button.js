@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const ButtonIcons = {
 	Default: "\u2D54",
 	NoAction: "\u2A02",
@@ -14,21 +16,26 @@ const DefaultButton = function () {
 }
 
 const Button = ({ button, label, actionCallback }) => {
+	const [pressed, setPressed] = useState(false);
 
 	const getButton = () => {
 		return button || DefaultButton();
 	}
 
 	const actionStart = (evt) => {
+		setPressed(true);
 		evt.target.style.transition = "";
 		evt.target.style.backgroundColor = getButton().Action !== "" ? "green" : "red";
 		actionCallback("start", getButton().Action);
 	}
 
 	const actionEnd = (evt) => {
-		evt.target.style.transition = "background-color 1s linear";
-		evt.target.style.background = "unset";
-		actionCallback("end", getButton().Action);
+		if (pressed) {
+			setPressed(false);
+			evt.target.style.transition = "background-color 1s linear";
+			evt.target.style.background = "unset";
+			actionCallback("end", getButton().Action);
+		}
 
 		try { evt.preventDefault(); } catch { }
 	}
@@ -47,6 +54,7 @@ const Button = ({ button, label, actionCallback }) => {
 			onTouchStart={actionStart}
 			onMouseUp={actionEnd}
 			onTouchEnd={actionEnd}
+			onMouseLeave={actionEnd}
 		>
 			{buttonIcon()}
 		</button>);

@@ -15,12 +15,15 @@ const App = function () {
 	const defaultMFD = DefaultMFD();
 
 	const [app, setApp] = useState(null);
-	const [leftMfd, setLeftMfd] = useState(defaultMFD);
-	const [rightMfd, setRightMfd] = useState(defaultMFD);
+	const [mfds, setMfds] = useState([defaultMFD, defaultMFD]);
 
 
 	const getApp = async function () {
 		sendJsonMessage({ type: "getApp", data: { name: "star-citizen" } });
+	}
+
+	const actionCallback = function (type, action) {
+		sendJsonMessage({ type: "action", data: { type: type, action: action } });
 	}
 
 	useEffect(() => {
@@ -28,8 +31,10 @@ const App = function () {
 		switch (lastJsonMessage?.type) {
 			case "app":
 				setApp(lastJsonMessage.data);
-				setLeftMfd(lastJsonMessage.data.pannels[1]);
-				setRightMfd(lastJsonMessage.data.pannels[0]);
+				setMfds([lastJsonMessage.data.pannels[1], lastJsonMessage.data.pannels[0]]);
+				break;
+			case "actionResponse":
+				console.log(lastJsonMessage.data);
 				break;
 			default:
 		}
@@ -50,18 +55,10 @@ const App = function () {
 	}
 
 	const swap = async function () {
-		setLeftMfd(app.pannels[0]);
-		setRightMfd(app.pannels[1]);
+		setMfds([lastJsonMessage.data.pannels[0], lastJsonMessage.data.pannels[1]]);
 	}
 
 	useEffect(() => {
-		/*if (!app || !app.curent) {
-			getApp()
-				.then(data => {
-					setLeftMfd(data.pannels[1]);
-					setRightMfd(data.pannels[0]);
-				})
-		}*/
 		setTime();
 		window.addEventListener("touchstart", function onFirstTouch() {
 			document.addEventListener('contextmenu', event => event.preventDefault());
@@ -76,13 +73,13 @@ const App = function () {
 			<div className='Header'><button style={{ fontSize: "48px" }} onClick={swap}>swap</button></div>
 			<div className='Content'>
 				<div className='mfdPannel'>
-					<MFD mfd={leftMfd} id="left" />
+					<MFD mfd={mfds[0]} id="left" actionCallback={actionCallback} />
 				</div>
 				<div id="clock" className='clockPannel'>
 					<div id="time"></div>
 				</div>ri
 				<div className='mfdPannel'>
-					<MFD mfd={rightMfd} id="right" />
+					<MFD mfd={mfds[1]} id="right" actionCallback={actionCallback} />
 				</div>
 			</div>
 		</div >

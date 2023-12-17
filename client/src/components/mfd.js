@@ -17,12 +17,11 @@ const DefaultMFD = function () {
 	}
 }
 
-const MFD = function ({ mfd }) {
-	console.log(mfd)
+const MFD = function ({ mfd, actionCallback }) {
 	const consoleEl = useRef("");
 	const center = createRef("");
 
-	const actionCallback = function (type, color) {
+	const actionCallback2 = function (type, color) {
 		consoleEl.current.log(`${type}:${color}`)
 		switch (type) {
 			case "start":
@@ -33,6 +32,8 @@ const MFD = function ({ mfd }) {
 				break;
 			default:
 		}
+
+		actionCallback(type, color);
 	};
 
 	const setBackground = function (color) {
@@ -48,12 +49,12 @@ const MFD = function ({ mfd }) {
 				top={mfd.Rocker[0]}
 				buttons={mfd.Left}
 				bottom={mfd.Rocker[2]}
-				actionCallback={actionCallback}
+				actionCallback={actionCallback2}
 			/>
 			<div className="middleColumn">
 				<HorizontalButtons
 					buttons={mfd.Top}
-					actionCallback={actionCallback}
+					actionCallback={actionCallback2}
 				/>
 				<div ref={center} className="centerScreen crt" style={{ backgroundImage: mfd.Background }}>
 					<div className="scanline"></div>
@@ -79,14 +80,14 @@ const MFD = function ({ mfd }) {
 				</div>
 				<HorizontalButtons
 					buttons={mfd.Bottom}
-					actionCallback={actionCallback}
+					actionCallback={actionCallback2}
 				/>
 			</div>
 			<VerticalButtons
 				top={mfd.Rocker[1]}
 				buttons={mfd.Right}
 				bottom={mfd.Rocker[3]}
-				actionCallback={actionCallback}
+				actionCallback={actionCallback2}
 			/>
 		</div>
 	)

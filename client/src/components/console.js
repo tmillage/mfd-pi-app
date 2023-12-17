@@ -15,7 +15,6 @@ const ConsoleFunction = function (props, ref) {
 				if (newLines.length > maxLength) {
 					newLines.length = maxLength;
 				}
-				console.log(newLines)
 
 				setLines(newLines);
 				setNextid(n => n + 1);
@@ -29,9 +28,7 @@ const ConsoleFunction = function (props, ref) {
 		if (second) {
 			second.classList.add("second");
 			setTimeout(() => {
-				console.log("timout");
 				if (second) {
-					console.log("removing class")
 					second.classList.remove("second");
 				}
 			}, 100);
