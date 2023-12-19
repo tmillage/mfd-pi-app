@@ -4,6 +4,8 @@ import useWebSocket from 'react-use-websocket';
 import './App.css';
 
 const App = function () {
+	const [nextId, setNextid] = useState(2);
+
 	const ws_url = 'ws://localhost:5000';
 	const { sendJsonMessage, lastJsonMessage } = useWebSocket(ws_url, {
 		onOpen: () => {
@@ -22,19 +24,36 @@ const App = function () {
 		sendJsonMessage({ type: "getApp", data: { name: "star-citizen" } });
 	}
 
-	const actionCallback = function (type, action) {
-		sendJsonMessage({ type: "action", data: { type: type, action: action } });
+	const getMFD = function (label) {
+		return app.pannels.find(p => p.label === label);
+	}
+
+	const actionCallback = function (mfd, type, action) {
+		if (action === "") {
+			return;
+		}
+		console.log(`actionCallback: ${mfd} ${type} ${action}`);
+		sendJsonMessage({ type: "action", data: { mfd: mfd, type: type, action: action } });
 	}
 
 	useEffect(() => {
-		console.log(lastJsonMessage);
-		switch (lastJsonMessage?.type) {
+		const type = lastJsonMessage?.type;
+		const data = lastJsonMessage?.data;
+
+		switch (type) {
 			case "app":
-				setApp(lastJsonMessage.data);
-				setMfds([lastJsonMessage.data.pannels[1], lastJsonMessage.data.pannels[0]]);
+				setApp(data);
+				setMfds([data.pannels[1], data.pannels[0]]);
 				break;
 			case "actionResponse":
-				console.log(lastJsonMessage.data);
+				const mfd = getMFD(data.mfd);
+				const newDisplay = [{ id: nextId, data: data.response }, ...mfd.Display];
+				if (newDisplay.length > 20) {
+					newDisplay.length = 20;
+				}
+				mfd.Display = newDisplay;
+				setNextid(n => n + 1);
+				setApp({ ...app });
 				break;
 			default:
 		}
@@ -55,7 +74,7 @@ const App = function () {
 	}
 
 	const swap = async function () {
-		setMfds([lastJsonMessage.data.pannels[0], lastJsonMessage.data.pannels[1]]);
+		setMfds([app.pannels[0], app.pannels[1]]);
 	}
 
 	useEffect(() => {

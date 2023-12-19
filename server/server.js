@@ -35,7 +35,15 @@ wsServer.on('connection', function (connection) {
 				break;
 			case "action":
 				const keybind = app.commands[message.data.action] || "no keybind";
-				connection.send(JSON.stringify({ type: 'actionResponse', data: { pannel: 0, keybind: keybind } }));
+				connection.send(JSON.stringify(
+					{
+						type: 'actionResponse',
+						data: {
+							mdf: message.data.mfd,
+							response: `${message.data.type === "start" ? "press" : "release"} ${keybind}`
+						}
+					})
+				);
 				break;
 		}
 	});

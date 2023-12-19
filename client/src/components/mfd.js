@@ -18,29 +18,9 @@ const DefaultMFD = function () {
 }
 
 const MFD = function ({ mfd, actionCallback }) {
-	const consoleEl = useRef("");
-	const center = createRef("");
 
-	const actionCallback2 = function (type, color) {
-		consoleEl.current.log(`${type}:${color}`)
-		switch (type) {
-			case "start":
-				setBackground(color);
-				break;
-			case "end":
-				setBackground("");
-				break;
-			default:
-		}
-
-		actionCallback(type, color);
-	};
-
-	const setBackground = function (color) {
-		if (center.current) {
-			center.current.style.transition = color === "" ? "background-image 1s linear" : "";
-			center.current.style.backgroundImage = color === "" ? "" : `radial-gradient(${color}, black)`;
-		}
+	const actionCallback2 = function (type, action) {
+		actionCallback(mfd.Label, type, action);
 	};
 
 	return (
@@ -56,7 +36,7 @@ const MFD = function ({ mfd, actionCallback }) {
 					buttons={mfd.Top}
 					actionCallback={actionCallback2}
 				/>
-				<div ref={center} className="centerScreen crt" style={{ backgroundImage: mfd.Background }}>
+				<div className="centerScreen crt" style={{ backgroundImage: mfd.Background }}>
 					<div className="scanline"></div>
 					<HorizontalLabels
 						left={mfd.Rocker[0]}
@@ -67,7 +47,7 @@ const MFD = function ({ mfd, actionCallback }) {
 						<VerticalLabels
 							buttons={mfd.Left}
 						/>
-						<Console ref={consoleEl} label={mfd.Label} max="10" />
+						<Console label={mfd.Label} display={mfd.Display} />
 						<VerticalLabels
 							buttons={mfd.Right}
 						/>

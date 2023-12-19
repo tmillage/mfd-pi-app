@@ -30,65 +30,65 @@
 			"Top": [
 				{
 					"TextLabel": "Pin 1",
-					"Action": "Aqua"
+					"Action": "pin1"
 				},
 				{
 					"TextLabel": "Pin 2",
-					"Action": "Aquamarine"
+					"Action": "pin2"
 				},
 				{
 					"TextLabel": "Pin 3",
-					"Action": "Azure"
+					"Action": "pin3"
 				},
 				{
 					"TextLabel": "Unlock",
-					"Action": "Beige"
+					"Action": "unlock"
 				}
 			],
 			"Left": [
 				{
 					"TextLabel": "FRND NR",
-					"Action": "CornflowerBlue"
+					"Action": "friendNear"
 				}
 			],
 			"Right": [
 				{
 					"TextLabel": "HSTL NR",
-					"Action": "Blue"
+					"Action": "hostileNear"
 				},
 				{
 					"TextLabel": "EXIT SEAT",
-					"Action": "Brown"
+					"Action": "exitSeat"
 				},
 				{
 					"TextLabel": "Wipe Helmet",
-					"Action": "BurlyWood"
+					"Action": "wipeHelmet"
 				},
 				{
 					"TextLabel": "Gimbal",
-					"Action": "CadetBlue"
+					"Action": "gimbal"
 				}
 			],
 			"Bottom": [
 				{
 					"TextLabel": "Wave",
-					"Action": "Cornsilk"
+					"Action": "wave"
 				},
 				{
 					"TextLabel": "Salute",
-					"Action": "Crimson"
+					"Action": "salute"
 				},
 				{
 					"TextLabel": "Point",
-					"Action": "Cyan"
+					"Action": "point"
 				},
 				{
 					"TextLabel": "Clap",
-					"Action": "DarkBlue"
+					"Action": "clap"
 				},
 				{
 					"TextLabel": "Cheer",
-					"Action": "DarkCyan"
+					"Action": "cheer"
 				}
 			],
 			"Rocker": [
@@ -96,33 +96,33 @@
 					"TextLabel": "FRND",
 					"Top": {
 						"TextLabel": "FRND+",
-						"Action": "AliceBlue"
+						"Action": "friendNext"
 					},
 					"Bottom": {
 						"TextLabel": "FRND-",
-						"Action": "AntiqueWhite"
+						"Action": "friendPrevious"
 					}
 				},
 				{
 					"TextLabel": "HSTL",
 					"Top": {
 						"TextLabel": "HSTL+",
-						"Action": "Bisque"
+						"Action": "hostileNext"
 					},
 					"Bottom": {
 						"TextLabel": "HSTL-",
-						"Action": "BlanchedAlmond"
+						"Action": "hostilePrevious"
 					}
 				},
 				{
 					"TextLabel": "CNTR",
 					"Top": {
 						"TextLabel": "CNTR+",
-						"Action": "Chartreuse"
+						"Action": "countermeasureMore"
 					},
 					"Bottom": {
 						"TextLabel": "CNTR-",
-						"Action": "Chocolate"
+						"Action": "countermeasureLess"
 					}
 				},
 				{
@@ -133,8 +133,14 @@
 					},
 					"Bottom": {
 						"TextLabel": "Drop",
-						"Action": "Coral"
+						"Action": "dropItem"
 					}
+				}
+			],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
 				}
 			]
 		},
@@ -145,7 +151,13 @@
 			"Left": [],
 			"Right": [],
 			"Bottom": [],
-			"Rocker": []
+			"Rocker": [],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
 		}
 	]
 }
