@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { getDeviceList } from 'usb';
+import { Keyboard } from './hid';
 
 // Spinning the HTTP server and the WebSocket server.
 const wsServer = new WebSocket.Server({ port: 5000 });
@@ -13,6 +13,8 @@ wsServer.on('connection', function (ws: WebSocket) {
 	// Generate a unique code for every user
 	const userId = uuidv4();
 	console.log(`Recieved a new connection.`);
+
+	const keyboard = new Keyboard();
 
 	// Store the new connection and handle messages
 	clients[userId] = ws;
@@ -32,22 +34,25 @@ wsServer.on('connection', function (ws: WebSocket) {
 				break;
 			case "action":
 				console.log("action");
-				const devices = getDeviceList()
-				console.log(devices)
-
-				for (const device of devices) {
-					console.log(device); // WebUSB device
-				}
 
 				//const keybind = app.commands[message.data.action] || "no keybind";
 				const action = actions.find((keybind: any) => keybind.action === message.data.action);
-				const keybind = action ? action.keybind || "no keybind" : "missing action";
+				const keybind = action.keybind;
+
+				if (message.data.type === "start") {
+					if (keybind) {
+						keyboard.press(keybind.split("+"));
+					}
+				} else {
+					keyboard.press([]);
+				}
+
 				ws.send(JSON.stringify(
 					{
 						type: 'actionResponse',
 						data: {
 							mfd: message.data.mfd,
-							response: `${message.data.type === "start" ? "press" : "release"} ${keybind}`
+							response: `${message.data.type === "start" ? "press" : "release"} ${keybind || "no keybind"}`
 						}
 					})
 				);
