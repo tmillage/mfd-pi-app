@@ -1,7 +1,0 @@
-{
-    "window": "test.txt",
-    "commands" : {
-        "one": "asdf",
-        "two": "jkl;"
-    }
-}

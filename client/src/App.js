@@ -24,8 +24,10 @@ const App = function () {
 		sendJsonMessage({ type: "getApp", data: { name: "star-citizen" } });
 	}
 
-	const getMFD = function (label) {
-		return app.pannels.find(p => p.label === label);
+	const getMfdByLabel = function (label) {
+		console.log(`getMfdByLabel: ${label}`)
+		console.log(app.pannels)
+		return app.pannels.find(p => p.Label === label) || DefaultMFD();
 	}
 
 	const actionCallback = function (mfd, type, action) {
@@ -46,7 +48,9 @@ const App = function () {
 				setMfds([data.pannels[1], data.pannels[0]]);
 				break;
 			case "actionResponse":
-				const mfd = getMFD(data.mfd);
+				console.log(data)
+				console.log(data.mfd)
+				const mfd = getMfdByLabel(data.mfd);
 				const newDisplay = [{ id: nextId, data: data.response }, ...mfd.Display];
 				if (newDisplay.length > 20) {
 					newDisplay.length = 20;
@@ -73,8 +77,11 @@ const App = function () {
 		callback();
 	}
 
-	const swap = async function () {
-		setMfds([app.pannels[0], app.pannels[1]]);
+	const switchTo = async function (left, right) {
+		console.log(`switchTo: ${left} ${right}`);
+		console.log(getMfdByLabel(left));
+		console.log(getMfdByLabel(right));
+		setMfds([getMfdByLabel(left), getMfdByLabel(right)]);
 	}
 
 	useEffect(() => {
@@ -89,7 +96,11 @@ const App = function () {
 
 	return (
 		<div className='App'>
-			<div className='Header'><button style={{ fontSize: "48px" }} onClick={swap}>swap</button></div>
+			<div className='Header'>
+				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Targeting", "Flight")}>Flight</button>
+				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Emotes", "On Foot")}>On Foot</button>
+				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Salvage", "Gimble")}>Salvage</button>
+			</div>
 			<div className='Content'>
 				<div className='mfdPannel'>
 					<MFD mfd={mfds[0]} id="left" actionCallback={actionCallback} />
