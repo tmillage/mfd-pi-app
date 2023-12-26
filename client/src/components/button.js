@@ -15,7 +15,7 @@ const DefaultButton = function () {
 	}
 }
 
-const Button = ({ button, label, actionCallback }) => {
+const Button = ({ button, label, actionCallback, className }) => {
 	const [pressed, setPressed] = useState(false);
 
 	const getButton = () => {
@@ -49,7 +49,7 @@ const Button = ({ button, label, actionCallback }) => {
 
 	return (
 		<button
-			className="button"
+			className={className || "button"}
 			onMouseDown={actionStart}
 			onTouchStart={actionStart}
 			onMouseUp={actionEnd}

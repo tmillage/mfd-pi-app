@@ -3,6 +3,7 @@ body {
 	height: 100%;
 	user-select: none;
 	background-color: black;
+	overflow: hidden;
 	--button-margin: 15px;
 	--small-button-margin: 5px;
 }
@@ -281,4 +282,41 @@ body {
 
 .mfdOutput::-webkit-scrollbar {
 	display: none;
+}
+
+.KeyboardTray {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: -571px;
+	display: flex;
+	justify-content: center;
+	transition: bottom 0.5s;
+}
+
+.KeyboardTray.Show {
+	bottom: 100px;
+}
+
+.Keyboard {
+	background-color: black;
+	flex-grow: 0;
+	display: inline-grid;
+	grid-template-columns: repeat(18, 80px);
+	grid-template-rows: repeat(6, 80px);
+	gap: 5px;
+	padding: 2em;
+	border: 1px solid green;
+}
+
+.Keyboard button {
+	flex-grow: 0;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid green;
+	color: green;
+	background-color: black;
+	font-size: 24px;
 }

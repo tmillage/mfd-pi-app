@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { MFD, DefaultMFD } from './components/mfd';
 import useWebSocket from 'react-use-websocket';
 import './App.css';
+import Keyboard from './components/keyboard';
 
 const App = function () {
 	const [nextId, setNextid] = useState(2);
+	const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
 
 	const ws_url = 'ws://localhost:5000';
 	const { sendJsonMessage, lastJsonMessage } = useWebSocket(ws_url, {
@@ -93,10 +95,22 @@ const App = function () {
 		}, false);
 	}, [])
 
+	const eventNotinKeyboard = function (evt) {
+		let el = evt.target;
+		while (el) {
+			if (el.classList.contains('Keyboard')) {
+				return false;
+			}
+			el = el.parentElement;
+		}
+		return true;
+	}
+
 
 	return (
-		<div className='App'>
+		<div className='App' onClick={(evt) => { keyboardIsVisible && eventNotinKeyboard(evt) && setKeyboardIsVisible(false) }}>
 			<div className='Header'>
+				<button style={{ fontSize: "48px" }} onClick={() => setKeyboardIsVisible(!keyboardIsVisible)}>Keyboard</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Targeting", "Flight")}>Flight</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Emotes", "On Foot")}>On Foot</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Salvage", "Gimble")}>Salvage</button>
@@ -112,6 +126,8 @@ const App = function () {
 					<MFD mfd={mfds[1]} id="right" actionCallback={actionCallback} />
 				</div>
 			</div>
+
+			<Keyboard IsVisible={keyboardIsVisible} />
 		</div >
 	)
 }
