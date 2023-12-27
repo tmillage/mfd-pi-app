@@ -302,8 +302,8 @@ body {
 	background-color: black;
 	flex-grow: 0;
 	display: inline-grid;
-	grid-template-columns: repeat(18, 80px);
-	grid-template-rows: repeat(6, 80px);
+	grid-template-columns: repeat(23, 60px);
+	grid-template-rows: repeat(6, 60px);
 	gap: 5px;
 	padding: 2em;
 	border: 1px solid green;
@@ -318,5 +318,5 @@ body {
 	border: 1px solid green;
 	color: green;
 	background-color: black;
-	font-size: 24px;
+	font-size: 16px;
 }
