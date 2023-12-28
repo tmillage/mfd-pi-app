@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from './button';
 
 const Keyboard = ({ IsVisible, actionCallback }) => {
+	const [currentlyPressed, setCurrentlyPressed] = React.useState([]);
+
 	const keys = [
 		[
 			{ label: 'Esc', value: 'ESCAPE' },
@@ -149,9 +151,21 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 	}
 
 	const keypress = (type, action) => {
-		console.log(`keyboard ${type} ${action}`);
-		actionCallback("keyboard", type, "keyboard", action);
+		if (type === "start") {
+			setCurrentlyPressed([...currentlyPressed, action]);
+		} else {
+			setCurrentlyPressed(currentlyPressed.filter((key) => key !== action));
+		}
 	}
+
+	useEffect(() => {
+		if (currentlyPressed.length > 0) {
+			const action = currentlyPressed.join("+");
+			actionCallback("keyboard", "start", "keyboard", action);
+		} else {
+			actionCallback("keyboard", "end", "keyboard", "");
+		}
+	}, [currentlyPressed]);
 
 	const getKey = (rowIndex, keyIndex, key) => {
 		return (

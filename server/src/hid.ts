@@ -41,17 +41,29 @@ class Keyboard extends HidDevice {
 		keys.forEach(key => {
 			console.log(key);
 			switch (key) {
-				case "CTRL":
+				case "LEFT_CONTROL":
 					modifier |= 0x01;
 					break;
-				case "SHIFT":
+				case "LEFT_SHIFT":
 					modifier |= 0x02;
 					break;
-				case "ALT":
+				case "LEFT_ALT":
 					modifier |= 0x04;
 					break;
-				case "GUI":
+				case "LEFT_GUI":
 					modifier |= 0x08;
+					break;
+				case "RIGHT_CONTROL":
+					modifier |= 0x10;
+					break;
+				case "RIGHT_SHIFT":
+					modifier |= 0x20;
+					break;
+				case "RIGHT_ALT":
+					modifier |= 0x30;
+					break;
+				case "RIGHT_GUI":
+					modifier |= 0x40;
 					break;
 				default:
 					const keycode = keys_to_keycodes[key.toUpperCase()];

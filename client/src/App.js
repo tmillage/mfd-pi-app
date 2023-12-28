@@ -116,13 +116,13 @@ const App = function () {
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Salvage", "Gimble")}>Salvage</button>
 			</div>
 			<div className='Content'>
-				<div className='mfdPannel'>
+				<div className='mfdPannelLeft'>
 					<MFD mfd={mfds[0]} id="left" actionCallback={actionCallback} />
 				</div>
 				<div id="clock" className='clockPannel'>
 					<div id="time"></div>
 				</div>ri
-				<div className='mfdPannel'>
+				<div className='mfdPannelRight'>
 					<MFD mfd={mfds[1]} id="right" actionCallback={actionCallback} />
 				</div>
 			</div>

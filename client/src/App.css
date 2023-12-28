@@ -9,14 +9,14 @@ body {
 }
 
 .App {
+	--app-padding: 1em;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	top: var(--app-padding);
+	bottom: var(--app-padding);
+	left: var(--app-padding);
+	right: var(--app-padding);
 }
 
 .App .Header {
