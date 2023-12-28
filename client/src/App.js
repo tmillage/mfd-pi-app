@@ -32,12 +32,12 @@ const App = function () {
 		return app.pannels.find(p => p.Label === label) || DefaultMFD();
 	}
 
-	const actionCallback = function (mfd, type, action) {
+	const actionCallback = function (mfd, type, action, data) {
 		if (action === "") {
 			return;
 		}
-		console.log(`actionCallback: ${mfd} ${type} ${action}`);
-		sendJsonMessage({ type: "action", data: { mfd: mfd, type: type, action: action } });
+		console.log(`actionCallback: ${mfd} ${type} ${action} ${data}`);
+		sendJsonMessage({ type: "action", data: { mfd: mfd, type: type, action: action, data: data } });
 	}
 
 	useEffect(() => {
@@ -53,13 +53,15 @@ const App = function () {
 				console.log(data)
 				console.log(data.mfd)
 				const mfd = getMfdByLabel(data.mfd);
-				const newDisplay = [{ id: nextId, data: data.response }, ...mfd.Display];
-				if (newDisplay.length > 20) {
-					newDisplay.length = 20;
+				if (mfd.Display) {
+					const newDisplay = [{ id: nextId, data: data.response }, ...mfd.Display];
+					if (newDisplay.length > 20) {
+						newDisplay.length = 20;
+					}
+					mfd.Display = newDisplay;
+					setNextid(n => n + 1);
+					setApp({ ...app });
 				}
-				mfd.Display = newDisplay;
-				setNextid(n => n + 1);
-				setApp({ ...app });
 				break;
 			default:
 		}
@@ -81,8 +83,6 @@ const App = function () {
 
 	const switchTo = async function (left, right) {
 		console.log(`switchTo: ${left} ${right}`);
-		console.log(getMfdByLabel(left));
-		console.log(getMfdByLabel(right));
 		setMfds([getMfdByLabel(left), getMfdByLabel(right)]);
 	}
 
@@ -127,7 +127,7 @@ const App = function () {
 				</div>
 			</div>
 
-			<Keyboard IsVisible={keyboardIsVisible} />
+			<Keyboard IsVisible={keyboardIsVisible} actionCallback={actionCallback} />
 		</div >
 	)
 }

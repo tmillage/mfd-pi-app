@@ -35,9 +35,14 @@ wsServer.on('connection', function (ws: WebSocket) {
 			case "action":
 				console.log("action");
 
-				//const keybind = app.commands[message.data.action] || "no keybind";
-				const action = actions.find((keybind: any) => keybind.action === message.data.action);
-				const keybind = action.keybind;
+				let keybind = "";
+
+				if (message.data.action === "keyboard") {
+					keybind = message.data.data;
+				} else {
+					const action = actions.find((keybind: any) => keybind.action === message.data.action);
+					keybind = action.keybind;
+				}
 
 				if (message.data.type === "start") {
 					if (keybind) {

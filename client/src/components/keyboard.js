@@ -1,6 +1,7 @@
 import React from 'react';
+import { Button } from './button';
 
-const Keyboard = ({ IsVisible }) => {
+const Keyboard = ({ IsVisible, actionCallback }) => {
 	const keys = [
 		[
 			{ label: 'Esc', value: 'ESCAPE' },
@@ -142,32 +143,21 @@ const Keyboard = ({ IsVisible }) => {
 
 	const getButton = (keyboardButton) => {
 		return {
-			TextLabel: keyboardButton.label || keyboardButton.value,
+			label: keyboardButton.label || keyboardButton.value,
 			Action: keyboardButton.value
 		}
 	}
 
-	const keypress = (evt, key, type) => {
-		console.log(evt);
-		console.log(evt.target)
-		console.log(key)
+	const keypress = (type, action) => {
+		console.log(`keyboard ${type} ${action}`);
+		actionCallback("keyboard", type, "keyboard", action);
 	}
 
 	const getKey = (rowIndex, keyIndex, key) => {
-		console.log(`${key.value} ${rowIndex + 1} / ${rowIndex + 1 + (key.height || 1)}`);
 		return (
-			(key.blank) ? (<div style={{ gridRow: rowIndex + 1 }} key={rowIndex + "-" + keyIndex}></div>) :
-				<button
-					key={rowIndex + "-" + keyIndex}
-					style={{ gridColumn: `span ${key.size || 1}`, gridRow: `${rowIndex + 1} / ${rowIndex + 1 + (key.height || 1)}` }}
-					onMouseDown={(evt) => keypress(evt, key, "start")}
-					onTouchStart={(evt) => keypress(evt, key, "start")}
-					onMouseUp={(evt) => keypress(evt, key, "end")}
-					onTouchEnd={(evt) => keypress(evt, key, "end")}
-					onMouseLeave={(evt) => keypress(evt, key, "end")}
-				>
-					{key.label || key.value}
-				</button>
+			<div style={{ gridColumn: `span ${key.size || 1}`, gridRow: `${rowIndex + 1} / ${rowIndex + 1 + (key.height || 1)}` }} key={rowIndex + "-" + keyIndex} >
+				{!key.blank ? <Button label={key.label || key.value} button={getButton(key)} actionCallback={keypress} /> : null}
+			</div>
 		)
 	}
 

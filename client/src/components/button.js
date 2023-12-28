@@ -10,7 +10,7 @@ const ButtonIcons = {
 
 const DefaultButton = function () {
 	return {
-		TextLabel: "label",
+		TextLabel: "",
 		Action: ""
 	}
 }
@@ -60,10 +60,10 @@ const Button = ({ button, label, actionCallback, className }) => {
 		</button>);
 }
 
-const ButtonLabel = ({ button, size }) => {
+const ButtonLabel = ({ button }) => {
 
 	return (
-		<div className={`label ${size}`}>
+		<div className={`label`}>
 			{(button || DefaultButton()).TextLabel}
 		</div>
 	)
@@ -71,7 +71,7 @@ const ButtonLabel = ({ button, size }) => {
 
 const DefaultRocker = function () {
 	return {
-		TextLabel: "label",
+		TextLabel: "",
 		Top: DefaultButton(),
 		Bottom: DefaultButton()
 	}

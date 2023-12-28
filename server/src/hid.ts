@@ -6,16 +6,25 @@ class HidDevice {
 
 	constructor(devicePath: string) {
 		this.devicePath = devicePath;
-		this.fileDescriptor = fs.openSync(this.devicePath, 'w');
+		try {
+			this.fileDescriptor = fs.openSync(this.devicePath, 'w');
+		} catch (error) {
+			console.log(error);
+			this.fileDescriptor = -1;
+		}
 	}
 
 	send(bytes: number[]): void {
 		console.log(bytes);
-		fs.writeSync(this.fileDescriptor, Buffer.from(bytes));
+		if (this.fileDescriptor > -1) {
+			fs.writeSync(this.fileDescriptor, Buffer.from(bytes));
+		}
 	}
 
 	close(): void {
-		fs.closeSync(this.fileDescriptor);
+		if (this.fileDescriptor > -1) {
+			fs.closeSync(this.fileDescriptor);
+		}
 	}
 }
 
