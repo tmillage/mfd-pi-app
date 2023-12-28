@@ -1,9 +1,5 @@
-import React, { useRef, createRef } from 'react';
-import { VerticalButtons } from "./vertical-buttons";
-import { HorizontalButtons } from "./horizonal-buttons";
-import { VerticalLabels } from "./vertical-labels";
-import { HorizontalLabels } from "./horizontal-labels";
 import { Console } from "./console";
+import { Button, ButtonLabel, DefaultButton, DefaultRocker, Rocker } from "./button";
 
 const DefaultMFD = function () {
 	return {
@@ -23,9 +19,35 @@ const MFD = function ({ mfd, actionCallback }) {
 		actionCallback(mfd.Label, type, action);
 	};
 
+	const getButtonElements = function (side, buttons) {
+		let btns = [];
+		for (let i = 0; i < 5; i++) {
+			btns.push(<div className={`${side}-${i + 1} buttonHolder`}><Button key={`${side}-${i}`} button={buttons[i] || DefaultButton()} actionCallback={actionCallback2} /></div>);
+			btns.push(<div className={`${side}-${i + 1}-label ${side}-label`}><ButtonLabel key={`${side}-${i}-label`} button={buttons[i] || DefaultButton()} /></div>);
+		}
+		return btns;
+	}
+
+	const getRockerElements = function (rockers) {
+		let btns = [];
+		for (let i = 0; i < 4; i++) {
+			btns.push(<div className={`rocker-${i + 1} buttonHolder`}><Rocker key={`rocker-${i}`} rocker={rockers[i] || DefaultRocker()} actionCallback={actionCallback2} /></div>)
+			btns.push(<div className={`rocker-${i + 1}-label rocker-label`}><ButtonLabel key={`rocker-${i}-label`} button={rockers[i] || DefaultRocker()} /></div>);
+		}
+		return btns;
+	}
+
 	return (
 		<div className={`mfd`} >
-			<VerticalButtons
+			{getButtonElements("left", mfd.Left)}
+			{getButtonElements("top", mfd.Top)}
+			{getButtonElements("right", mfd.Right)}
+			{getButtonElements("bottom", mfd.Bottom)}
+			{getRockerElements(mfd.Rocker)}
+			<div className="centerScreen crt" style={{ backgroundImage: mfd.Background }}>
+				<Console label={mfd.Label} display={mfd.Display} />
+			</div>
+			{/*<VerticalButtons
 				top={mfd.Rocker[0]}
 				buttons={mfd.Left}
 				bottom={mfd.Rocker[2]}
@@ -68,7 +90,7 @@ const MFD = function ({ mfd, actionCallback }) {
 				buttons={mfd.Right}
 				bottom={mfd.Rocker[3]}
 				actionCallback={actionCallback2}
-			/>
+		/> */}
 		</div>
 	)
 }

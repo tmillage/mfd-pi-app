@@ -10,7 +10,7 @@ const ButtonIcons = {
 
 const DefaultButton = function () {
 	return {
-		TextLabel: "",
+		TextLabel: "label",
 		Action: ""
 	}
 }
@@ -71,7 +71,7 @@ const ButtonLabel = ({ button, size }) => {
 
 const DefaultRocker = function () {
 	return {
-		TextLabel: "",
+		TextLabel: "label",
 		Top: DefaultButton(),
 		Bottom: DefaultButton()
 	}
