@@ -597,7 +597,7 @@
 		"activationMode": "smart_toggle"
 	},
 	{
-		"keybind": "",
+		"keybind": "rctrl+mouse3",
 		"category": "Flight - Movement",
 		"label": "Speed Limiter - Reset to SCM",
 		"action": "v_ifcs_speed_limiter_reset_scm",
@@ -991,7 +991,7 @@
 		"activationMode": "tap"
 	},
 	{
-		"keybind": "",
+		"keybind": "ralt+4",
 		"category": "Vehicles - Target Cycling",
 		"label": "Cycle Lock - Attackers - Back",
 		"action": "v_target_cycle_attacker_back",
@@ -1012,7 +1012,7 @@
 		"activationMode": "tap"
 	},
 	{
-		"keybind": "",
+		"keybind": "ralt+5",
 		"category": "Vehicles - Target Cycling",
 		"label": "Cycle Lock - Hostiles - Back",
 		"action": "v_target_cycle_hostile_back",
@@ -1033,7 +1033,7 @@
 		"activationMode": "tap"
 	},
 	{
-		"keybind": "",
+		"keybind": "lctrl+6",
 		"category": "Vehicles - Target Cycling",
 		"label": "Cycle Lock - Friendlies - Back",
 		"action": "v_target_cycle_friendly_back",
@@ -1047,7 +1047,7 @@
 		"activationMode": "tap"
 	},
 	{
-		"keybind": "lalt+6",
+		"keybind": "ralt+6",
 		"category": "Vehicles - Target Cycling",
 		"label": "Cycle Lock - Friendlies - Reset to Closest",
 		"action": "v_target_cycle_friendly_reset",

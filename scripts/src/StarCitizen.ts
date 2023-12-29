@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { json } from 'stream/consumers';
 import { parseString } from 'xml2js';
 
 const dictionary: { [key: string]: string } = {};
@@ -24,10 +25,12 @@ lines.forEach((line) => {
 		dictionary[key.trim()] = value.trim();
 });
 
-//load the default profile
-const filePath = 'data/star-citizen/defaultProfile.xml';
+const keyboardActions: any[] = [];
 
-data = fs.readFileSync(filePath);
+//load the default profile
+const defaultProfilePath = 'data/star-citizen/defaultProfile.xml';
+
+data = fs.readFileSync(defaultProfilePath);
 
 // Parse the XML data
 parseString(data.toString(), (parseErr: Error | null, result: any) => {
@@ -38,8 +41,6 @@ parseString(data.toString(), (parseErr: Error | null, result: any) => {
 
 	// Process the parsed XML data here
 	const actionMaps = result.profile.actionmap;
-
-	const keyboardActions: any[] = [];
 
 	actionMaps.forEach((actionMap: any) => {
 		const label = actionMap.$.UILabel;
@@ -56,9 +57,63 @@ parseString(data.toString(), (parseErr: Error | null, result: any) => {
 			});
 		}
 	});
-
-	// Write keyboard actions to JSON file
-	const filePath = '../server/applications/star-citizen-keybinds.json';
-	fs.writeFileSync(filePath, JSON.stringify(keyboardActions));
-
 });
+
+//load current keybindings
+const actionmapsPath = 'data/star-citizen/actionmaps.xml';
+
+data = fs.readFileSync(actionmapsPath);
+
+// Parse the XML data
+parseString(data.toString(), (parseErr: Error | null, result: any) => {
+	if (parseErr) {
+		console.error(`Error parsing XML: ${parseErr}`);
+		return;
+	}
+
+	result.ActionMaps.ActionProfiles[0].actionmap.forEach((actionMap: any) => {
+		actionMap.action.forEach((action: any) => {
+			action.rebind.forEach((rebind: any) => {
+				if (rebind.$.input.indexOf("kb1_") === 0) {
+					const keybind = rebind.$.input.replace("kb1_", "");
+					const keyboardAction = keyboardActions.find((keyboardAction) => keyboardAction.action === action.$.name);
+					if (keyboardAction) {
+						keyboardAction.keybind = keybind;
+					}
+				}
+			});
+		});
+	});
+});
+
+//load the star cititzen app to get the actiosn that need keybinds
+const starCitizenAppPath = '../server/applications/star-citizen.json';
+
+data = fs.readFileSync(starCitizenAppPath);
+
+var app = JSON.parse(data.toString());
+var actionsWithoutKeybinds: string[] = [];
+
+const checkButton = (button: any) => {
+	if (button.Action) {
+		const action = keyboardActions.find((keyboardAction) => keyboardAction.action === button.Action);
+		if (action.keybind === "") {
+			actionsWithoutKeybinds.push(`${button.TextLabel} - ${action.category} - ${action.label}`);
+		}
+	}
+
+}
+
+app.pannels.forEach((pannel: any) => {
+	pannel.Top.forEach((button: any) => checkButton(button));
+	pannel.Left.forEach((button: any) => checkButton(button));
+	pannel.Right.forEach((button: any) => checkButton(button));
+	pannel.Bottom.forEach((button: any) => checkButton(button));
+	pannel.Rocker.forEach((rocker: any) => { checkButton(rocker.Top); checkButton(rocker.Bottom); });
+});
+
+
+// Write keyboard actions to JSON file
+const filePath = '../server/applications/star-citizen-keybinds.json';
+fs.writeFileSync(filePath, JSON.stringify(keyboardActions));
+fs.writeFileSync('../server/applications/star-citizen-missing-keybinds.txt', actionsWithoutKeybinds.join("\n"));

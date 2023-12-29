@@ -1,0 +1,13 @@
+Drop - On Foot - All - Drop Item
+Reset Head - VOIP, FOIP and Head Tracking - Recenter Head Tracking Device (except TrackIR)
+PNG+ - Vehicles - Scanning - Increase Scanning Angle
+PNG- - Vehicles - Scanning - Decrease Scanning Angle
+Lock - Vehicles - Cockpit - Lock All Doors
+Unlock - Vehicles - Cockpit - Unlock All Doors
+Open - Vehicles - Cockpit - Open All Doors
+Close - Vehicles - Cockpit - Close All Doors
+Wave - Social - Emotes - Wave
+Salute - Social - Emotes - Salute
+Point - Social - Emotes - Point
+Clap - Social - Emotes - Clap
+Cheer - Social - Emotes - Cheer
