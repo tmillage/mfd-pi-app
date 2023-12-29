@@ -1,13 +1,25 @@
 import React, { useEffect } from 'react';
-import { Button } from './button';
+import { Button, ButtonType } from './button';
 
-const Keyboard = ({ IsVisible, actionCallback }) => {
-	const [currentlyPressed, setCurrentlyPressed] = React.useState([]);
+interface Key {
+	label?: string;
+	value: string;
+	size?: number;
+	height?: number;
+}
 
-	const keys = [
+interface KeyboardProps {
+	IsVisible: boolean;
+	actionCallback: (mfd: string, type: string, action: string, data: any) => void;
+}
+
+const Keyboard: React.FC<KeyboardProps> = ({ IsVisible, actionCallback }) => {
+	const [currentlyPressed, setCurrentlyPressed] = React.useState<string[]>([]);
+
+	const keys: Key[][] = [
 		[
 			{ label: 'Esc', value: 'ESCAPE' },
-			{ blank: true },
+			{ value: "" },
 			{ value: 'F1' },
 			{ value: 'F2' },
 			{ value: 'F3' },
@@ -20,15 +32,15 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 			{ value: 'F10' },
 			{ value: 'F11' },
 			{ value: 'F12' },
-			{ blank: true },
+			{ value: "" },
 			{ label: "Print Screen", value: 'PRINT_SCREEN' },
 			{ label: "Scroll Lock", value: 'SCROLL_LOCK' },
 			{ label: "Pause", value: 'PAUSE' },
-			{ blank: true },
-			{ blank: true },
-			{ blank: true },
-			{ blank: true },
-			{ blank: true }
+			{ value: "" },
+			{ value: "" },
+			{ value: "" },
+			{ value: "" },
+			{ value: "" }
 		],
 		[
 			{ label: '`', value: 'GRAVE_ACCENT' },
@@ -45,11 +57,11 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 			{ label: '-', value: 'MINUS' },
 			{ label: '=', value: 'EQUALS' },
 			{ label: 'Bksp', value: 'BACKSPACE' },
-			{ blank: true },
+			{ value: "" },
 			{ label: 'Insert', value: 'INSERT' },
 			{ label: 'Home', value: 'HOME' },
 			{ label: 'Page Up', value: 'PAGE_UP' },
-			{ blank: true },
+			{ value: "" },
 			{ label: "Num Lock", value: 'KEYPAD_NUMLOCK' },
 			{ label: '/', value: 'KEYPAD_FORWARD_SLASH' },
 			{ label: '*', value: 'KEYPAD_ASTERISK' },
@@ -70,11 +82,11 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 			{ value: 'LBRACKET', label: '[' },
 			{ value: 'RBRACKET', label: ']' },
 			{ value: 'BACKSLASH', label: '\\' },
-			{ blank: true },
+			{ value: "" },
 			{ value: 'DELETE', label: 'Del' },
 			{ value: 'END', label: 'End' },
 			{ label: 'PG DN', value: 'PAGE_DOWN' },
-			{ blank: true },
+			{ value: "" },
 			{ label: '7', value: 'KEYPAD_SEVEN' },
 			{ label: '8', value: 'KEYPAD_EIGHT' },
 			{ label: '9', value: 'KEYPAD_NINE' },
@@ -94,11 +106,11 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 			{ value: 'SEMICOLON', label: ';' },
 			{ value: 'QUOTE', label: "'" },
 			{ value: 'ENTER', label: 'Enter', size: 2 },
-			{ blank: true },
-			{ blank: true },
-			{ blank: true },
-			{ blank: true },
-			{ blank: true },
+			{ value: "" },
+			{ value: "" },
+			{ value: "" },
+			{ value: "" },
+			{ value: "" },
 			{ label: '4', value: 'KEYPAD_FOUR' },
 			{ label: '5', value: 'KEYPAD_FIVE' },
 			{ label: '6', value: 'KEYPAD_SIX' }
@@ -116,11 +128,11 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 			{ value: 'PERIOD', label: '.' },
 			{ value: 'FORWARD_SLASH', label: '/' },
 			{ value: 'RIGHT_SHIFT', label: 'Shift', size: 2 },
-			{ blank: true },
-			{ blank: true },
+			{ value: "" },
+			{ value: "" },
 			{ label: '\u2191', value: 'UP_ARROW' },
-			{ blank: true },
-			{ blank: true },
+			{ value: "" },
+			{ value: "" },
 			{ label: '1', value: 'KEYPAD_ONE' },
 			{ label: '2', value: 'KEYPAD_TWO' },
 			{ label: '3', value: 'KEYPAD_THREE' },
@@ -134,23 +146,24 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 			{ value: 'RIGHT_ALT', label: 'Alt' },
 			{ value: 'RIGHT_GUI', label: 'Menu' },
 			{ value: 'RIGHT_CONTROL', label: 'Ctrl' },
-			{ blank: true },
+			{ value: "" },
 			{ label: '\u2190', value: 'LEFT_ARROW' },
 			{ label: '\u2193', value: 'DOWN_ARROW' },
 			{ label: '\u2192', value: 'RIGHT_ARROW' },
-			{ blank: true },
+			{ value: "" },
 			{ label: "0", value: 'KEYPAD_ZERO', size: 2 },
 			{ label: '.', value: 'KEYPAD_PERIOD' }]
 	];
 
-	const getButton = (keyboardButton) => {
+	const getButton = (keyboardButton: Key): ButtonType => {
 		return {
-			label: keyboardButton.label || keyboardButton.value,
+			Label: keyboardButton.label || keyboardButton.value,
+			TextLabel: keyboardButton.label || keyboardButton.value,
 			Action: keyboardButton.value
 		}
 	}
 
-	const keypress = (type, action) => {
+	const keypress = (type: string, action: string) => {
 		if (type === "start") {
 			setCurrentlyPressed([...currentlyPressed, action]);
 		} else {
@@ -167,12 +180,22 @@ const Keyboard = ({ IsVisible, actionCallback }) => {
 		}
 	}, [currentlyPressed]);
 
-	const getKey = (rowIndex, keyIndex, key) => {
+	const getKey = (rowIndex: number, keyIndex: number, key: Key) => {
+		let height = 1;
+		let size = 1;
+		let isBlank = true;
+
+		if (key.value !== "") {
+			height = key.height || 1;
+			size = key.size || 1;
+			isBlank = false
+		}
+
 		return (
-			<div style={{ gridColumn: `span ${key.size || 1}`, gridRow: `${rowIndex + 1} / ${rowIndex + 1 + (key.height || 1)}` }} key={rowIndex + "-" + keyIndex} >
-				{!key.blank ? <Button label={key.label || key.value} button={getButton(key)} actionCallback={keypress} /> : null}
+			<div style={{ gridColumn: `span ${size}`, gridRow: `${rowIndex + 1} / ${rowIndex + 1 + height}` }} key={rowIndex + "-" + keyIndex} >
+				{isBlank ? null : <Button label={key.label || key.value} button={getButton(key)} actionCallback={keypress} />}
 			</div>
-		)
+		);
 	}
 
 	return (
