@@ -283,7 +283,22 @@
 		{
 			"Label": "On Foot",
 			"Background": "STARCITIZEN_WHITE.png",
-			"Top": [],
+			"Top": [
+				{},
+				{
+					"TextLabel": "Left",
+					"Action": "v_salvage_focus_left"
+				},
+				{
+					"TextLabel": "Both",
+					"Action": "v_salvage_focus_all"
+				},
+				{
+					"TextLabel": "Right",
+					"Action": "v_salvage_focus_right"
+				},
+				{}
+			],
 			"Left": [],
 			"Right": [],
 			"Bottom": [],
@@ -300,7 +315,20 @@
 			"Background": "STARCITIZEN_WHITE.png",
 			"Top": [],
 			"Left": [],
-			"Right": [],
+			"Right": [
+				{
+					"TextLabel": "Salvage",
+					"Action": "v_toggle_salvage_mode"
+				},
+				{
+					"TextLabel": "Gimbal",
+					"Action": "v_salvage_toggle_gimbal_mode"
+				},
+				{
+					"TextLabel": "Reset Gimbal",
+					"Action": "v_salvage_reset_gimbal"
+				}
+			],
 			"Bottom": [],
 			"Rocker": [],
 			"Display": [

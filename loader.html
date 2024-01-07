@@ -1,0 +1,44 @@
+<html>
+
+<head>
+	<script>
+		function checkAndRedirect(url) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						window.location.href = url;
+					} else {
+						console.log("URL cannot be loaded.");
+					}
+				}
+			};
+			xhr.open("GET", url, true);
+			xhr.send();
+		}
+	</script>
+</head>
+
+<body>
+	<div id="loader">
+		<img src="images/loader.gif" alt="Loading..." />
+	</div>
+
+	<script>
+		var urlToLoad = "http://localhost:3000"; // Replace with your desired URL
+		checkAndRedirect(urlToLoad);
+	</script>
+</body>
+
+</html>
+
+<title>Loader</title>
+</head>
+
+<body>
+	<div id="loader">
+		<img src="images/loader.gif" alt="Loading..." />
+	</div>
+</body>
+
+</html>
