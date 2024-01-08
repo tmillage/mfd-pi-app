@@ -1,4 +1,3 @@
-Drop - On Foot - All - Drop Item
 Reset Head - VOIP, FOIP and Head Tracking - Recenter Head Tracking Device (except TrackIR)
 PNG+ - Vehicles - Scanning - Increase Scanning Angle
 PNG- - Vehicles - Scanning - Decrease Scanning Angle
@@ -11,3 +10,4 @@ Salute - Social - Emotes - Salute
 Point - Social - Emotes - Point
 Clap - Social - Emotes - Clap
 Cheer - Social - Emotes - Cheer
+Drop - On Foot - All - Drop Item

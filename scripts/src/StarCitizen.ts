@@ -95,7 +95,7 @@ var app = JSON.parse(data.toString());
 var actionsWithoutKeybinds: string[] = [];
 
 const checkButton = (button: any) => {
-	if (button.Action) {
+	if (button && button.Action) {
 		const action = keyboardActions.find((keyboardAction) => keyboardAction.action === button.Action);
 		if (action.keybind === "") {
 			actionsWithoutKeybinds.push(`${button.TextLabel} - ${action.category} - ${action.label}`);

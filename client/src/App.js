@@ -48,7 +48,7 @@ const App = function () {
 		switch (type) {
 			case "app":
 				setApp(data);
-				setMfds([data.pannels[1], data.pannels[0]]);
+				setMfds([data.pannels[0], data.pannels[1]]);
 				break;
 			case "actionResponse":
 				console.log(data)

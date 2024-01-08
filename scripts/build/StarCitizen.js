@@ -79,7 +79,7 @@ data = fs_1.default.readFileSync(starCitizenAppPath);
 var app = JSON.parse(data.toString());
 var actionsWithoutKeybinds = [];
 const checkButton = (button) => {
-    if (button.Action) {
+    if (button && button.Action) {
         const action = keyboardActions.find((keyboardAction) => keyboardAction.action === button.Action);
         if (action.keybind === "") {
             actionsWithoutKeybinds.push(`${button.TextLabel} - ${action.category} - ${action.label}`);
