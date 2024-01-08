@@ -10,6 +10,9 @@
 						window.location.href = url;
 					} else {
 						console.log("URL cannot be loaded.");
+						setTimeout(function () {
+							checkAndRedirect(url);
+						}, 1000);
 					}
 				}
 			};
@@ -17,28 +20,46 @@
 			xhr.send();
 		}
 	</script>
+
+	<style>
+		html {
+			background:
+				repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0/2500px 2500px,
+				repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 60%/2500px 2500px;
+			background-blend-mode: difference;
+			animation: b .2s infinite alternate;
+		}
+
+		@keyframes b {
+			100% {
+				background-position: 50% 0, 60% 50%
+			}
+		}
+
+		#loader {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 96px;
+			font-family: monospace;
+			color: green;
+			background-color: black;
+			padding: .5em;
+			border-radius: 20px;
+		}
+	</style>
 </head>
 
 <body>
 	<div id="loader">
-		<img src="images/loader.gif" alt="Loading..." />
+		Loading...
 	</div>
 
 	<script>
 		var urlToLoad = "http://localhost:3000"; // Replace with your desired URL
 		checkAndRedirect(urlToLoad);
 	</script>
-</body>
-
-</html>
-
-<title>Loader</title>
-</head>
-
-<body>
-	<div id="loader">
-		<img src="images/loader.gif" alt="Loading..." />
-	</div>
 </body>
 
 </html>
