@@ -71,9 +71,11 @@ const App = function () {
 	const setTime = function () {
 		const callback = function () {
 			var el = document.getElementById('time');
-			var now = new Date();
-			if (el != null) {
-				el.innerHTML = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+			var el2 = document.getElementById('date');
+			if (el != null && el2 != null) {
+				var now = new Date();
+				el.innerHTML = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+				el2.innerHTML = now.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
 				setTimeout(callback, 60000 - 1000 * now.getSeconds() - now.getMilliseconds())
 			} else {
 				setTimeout(callback, 100)
@@ -119,7 +121,6 @@ const App = function () {
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Targeting", "Flight")}>Flight</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Emotes", "On Foot")}>On Foot</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Salvage", "Gimble")}>Salvage</button>
-				<button style={{ fontSize: "48px" }} onClick={() => pull()}>Mining</button>
 			</div>
 			<div className='Content'>
 				<div className='mfdPannelLeft'>
@@ -127,6 +128,8 @@ const App = function () {
 				</div>
 				<div id="clock" className='clockPannel'>
 					<div id="time"></div>
+					<div id="date"></div>
+					<button onClick={() => pull()}>Update from GitHub</button>
 				</div>ri
 				<div className='mfdPannelRight'>
 					<MFD mfd={mfds[1]} id="right" actionCallback={actionCallback} />

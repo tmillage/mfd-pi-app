@@ -81,17 +81,7 @@
 						"Action": "v_weapon_countermeasure_decoy_burst_decrease"
 					}
 				},
-				{
-					"TextLabel": "Drop",
-					"Top": {
-						"TextLabel": "",
-						"Action": ""
-					},
-					"Bottom": {
-						"TextLabel": "Drop",
-						"Action": "drop"
-					}
-				}
+				{}
 			],
 			"Display": [
 				{
@@ -271,7 +261,28 @@
 			],
 			"Left": [],
 			"Right": [],
-			"Bottom": [],
+			"Bottom": [
+				{
+					"TextLabel": "Yes",
+					"Action": "emote_cs_yes"
+				},
+				{
+					"TextLabel": "LEFT",
+					"Action": "emote_cs_left"
+				},
+				{
+					"TextLabel": "FWD",
+					"Action": "emote_cs_forward"
+				},
+				{
+					"TextLabel": "RIGHT",
+					"Action": "emote_cs_right"
+				},
+				{
+					"TextLabel": "No",
+					"Action": "emote_cs_no"
+				}
+			],
 			"Rocker": [],
 			"Display": [
 				{
@@ -283,9 +294,54 @@
 		{
 			"Label": "On Foot",
 			"Background": "STARCITIZEN_WHITE.png",
-			"Top": [],
-			"Left": [],
-			"Right": [],
+			"Top": [
+				{},
+				{
+					"TextLabel": "RELD",
+					"Action": "reload"
+				},
+				{
+					"TextLabel": "HLSTR",
+					"Action": "holster"
+				},
+				{
+					"TextLabel": "RELD SCND",
+					"Action": "reloadSecondary"
+				},
+				{}
+			],
+			"Left": [
+				{
+					"TextLabel": "Drop",
+					"Action": "drop"
+				},
+				{
+					"TextLabel": "Wipe Helmet",
+					"Action": "visor_wipe"
+				}
+			],
+			"Right": [
+				{
+					"TextLabel": "Sidearm",
+					"Action": "selectpistol"
+				},
+				{
+					"TextLabel": "Primary",
+					"Action": "selectprimary"
+				},
+				{
+					"TextLabel": "Secondary",
+					"Action": "selectsecondary"
+				},
+				{
+					"TextLabel": "Gadget",
+					"Action": "selectgadget"
+				},
+				{
+					"TextLabel": "Melee",
+					"Action": "selectMeleeWeapon"
+				}
+			],
 			"Bottom": [],
 			"Rocker": [],
 			"Display": [

@@ -35,11 +35,6 @@ body {
 	flex-direction: row;
 }
 
-.clockPannel {
-	flex-grow: 1;
-	align-items: center;
-}
-
 #clock {
 	height: 100%;
 	color: green;
@@ -48,6 +43,13 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	flex-grow: 1;
+	align-items: center;
+}
+
+#clock button {
+	position: absolute;
+	bottom: 0;
 }
 
 .background {
