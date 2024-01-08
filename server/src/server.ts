@@ -23,13 +23,26 @@ wsServer.on('connection', function (ws: WebSocket) {
 	let app: any = null;
 	let actions: any = [];
 
+	const loadJsonFromFile = (name: string): any => {
+		console.log("loadJsonFromFile", name);
+		const fs = require('fs');
+		const data = fs.readFileSync(`applications/${name}.json`);
+		const json = JSON.parse(data.toString());
+
+		return json;
+	};
+
 	ws.on('message', async function (json: string) {
 		const message = JSON.parse(json);
 		console.log(message);
 		switch (message.type) {
 			case "getApp":
-				app = require(`../applications/${message.data.name}.json`);
-				actions = require(`../applications/${message.data.name}-keybinds.json`);
+				console.log("getApp");
+				app = loadJsonFromFile(message.data.name);
+				actions = loadJsonFromFile(`${message.data.name}-keybinds`);
+
+				console.log("getApp", app.Pannels);
+
 				ws.send(JSON.stringify({ type: 'app', data: app }));
 				break;
 			case "action":
@@ -61,6 +74,22 @@ wsServer.on('connection', function (ws: WebSocket) {
 						}
 					})
 				);
+				break;
+			case "pull":
+				console.log("pull");
+
+				const { exec } = require("child_process");
+				exec("cd .. && git pull", (error: any, stdout: any, stderr: any) => {
+					if (error) {
+						console.log(`error: ${error.message}`);
+						return;
+					}
+					if (stderr) {
+						console.log(`stderr: ${stderr}`);
+						return;
+					}
+					console.log(`stdout: ${stdout}`);
+				});
 				break;
 		}
 	});

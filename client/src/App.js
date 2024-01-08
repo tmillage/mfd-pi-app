@@ -27,6 +27,7 @@ const App = function () {
 	}
 
 	const getMfdByLabel = function (label) {
+		if (app == null) return DefaultMFD();
 		console.log(`getMfdByLabel: ${label}`)
 		console.log(app.pannels)
 		return app.pannels.find(p => p.Label === label) || DefaultMFD();
@@ -86,6 +87,10 @@ const App = function () {
 		setMfds([getMfdByLabel(left), getMfdByLabel(right)]);
 	}
 
+	const pull = async function () {
+		sendJsonMessage({ type: "pull", data: {} });
+	}
+
 	useEffect(() => {
 		setTime();
 		window.addEventListener("touchstart", function onFirstTouch() {
@@ -114,6 +119,7 @@ const App = function () {
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Targeting", "Flight")}>Flight</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Emotes", "On Foot")}>On Foot</button>
 				<button style={{ fontSize: "48px" }} onClick={() => switchTo("Salvage", "Gimble")}>Salvage</button>
+				<button style={{ fontSize: "48px" }} onClick={() => pull()}>Mining</button>
 			</div>
 			<div className='Content'>
 				<div className='mfdPannelLeft'>
@@ -127,7 +133,7 @@ const App = function () {
 				</div>
 			</div>
 
-			<Keyboard IsVisible={keyboardIsVisible} actionCallback={actionCallback} />
+			{app !== null ? <Keyboard IsVisible={keyboardIsVisible} actionCallback={actionCallback} /> : null}
 		</div >
 	)
 }

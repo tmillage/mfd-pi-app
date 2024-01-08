@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && node dist/server.js"
+    "start": "nodemon --exec npx ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "nodemon": "^3.0.2",
     "usb": "^2.11.0",
     "uuidv4": "^6.2.13",
     "ws": "^8.15.1"

@@ -283,6 +283,21 @@
 		{
 			"Label": "On Foot",
 			"Background": "STARCITIZEN_WHITE.png",
+			"Top": [],
+			"Left": [],
+			"Right": [],
+			"Bottom": [],
+			"Rocker": [],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
+		},
+		{
+			"Label": "Salvage",
+			"Background": "STARCITIZEN_WHITE.png",
 			"Top": [
 				{},
 				{
@@ -299,21 +314,6 @@
 				},
 				{}
 			],
-			"Left": [],
-			"Right": [],
-			"Bottom": [],
-			"Rocker": [],
-			"Display": [
-				{
-					"id": 1,
-					"data": "Initalized"
-				}
-			]
-		},
-		{
-			"Label": "Salvage",
-			"Background": "STARCITIZEN_WHITE.png",
-			"Top": [],
 			"Left": [],
 			"Right": [
 				{
