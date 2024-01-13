@@ -71,17 +71,27 @@
 					}
 				},
 				{
-					"TextLabel": "CNTR",
+					"TextLabel": "Lock",
 					"Top": {
-						"TextLabel": "CNTR+",
-						"Action": "v_weapon_countermeasure_decoy_burst_increase"
+						"TextLabel": "Lock",
+						"Action": "v_lock_all_doors"
 					},
 					"Bottom": {
-						"TextLabel": "CNTR-",
-						"Action": "v_weapon_countermeasure_decoy_burst_decrease"
+						"TextLabel": "Unlock",
+						"Action": "v_unlock_all_doors"
 					}
 				},
-				{}
+				{
+					"TextLabel": "Doors",
+					"Top": {
+						"TextLabel": "Open",
+						"Action": "v_open_all_doors"
+					},
+					"Bottom": {
+						"TextLabel": "Close",
+						"Action": "v_close_all_doors"
+					}
+				}
 			],
 			"Display": [
 				{
@@ -205,25 +215,25 @@
 					}
 				},
 				{
-					"TextLabel": "Lock",
+					"TextLabel": "CNTR",
 					"Top": {
-						"TextLabel": "Lock",
-						"Action": "v_lock_all_doors"
+						"TextLabel": "CNTR+",
+						"Action": "v_weapon_countermeasure_decoy_burst_increase"
 					},
 					"Bottom": {
-						"TextLabel": "Unlock",
-						"Action": "v_unlock_all_doors"
+						"TextLabel": "CNTR-",
+						"Action": "v_weapon_countermeasure_decoy_burst_decrease"
 					}
 				},
 				{
-					"TextLabel": "Doors",
+					"TextLabel": "CFG",
 					"Top": {
-						"TextLabel": "Open",
-						"Action": "v_open_all_doors"
+						"TextLabel": "CFG+",
+						"Action": "v_transform_deploy"
 					},
 					"Bottom": {
-						"TextLabel": "Close",
-						"Action": "v_close_all_doors"
+						"TextLabel": "CFG-",
+						"Action": "v_transform_retract"
 					}
 				}
 			],
@@ -362,7 +372,7 @@
 				},
 				{
 					"TextLabel": "Both",
-					"Action": "v_salvage_focus_all"
+					"Action": "v_salvage_focus_all_heads"
 				},
 				{
 					"TextLabel": "Right",
@@ -372,6 +382,14 @@
 			],
 			"Left": [],
 			"Right": [
+				{
+					"TextLabel": "Fracture",
+					"Action": "v_salvage_toggle_fire_fracture"
+				},
+				{
+					"TextLabel": "Disintegrate",
+					"Action": "v_salvage_toggle_fire_disintegrate"
+				},
 				{
 					"TextLabel": "Salvage",
 					"Action": "v_toggle_salvage_mode"

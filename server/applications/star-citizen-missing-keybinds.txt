@@ -1,10 +1,14 @@
-Reset Head - VOIP, FOIP and Head Tracking - Recenter Head Tracking Device (except TrackIR)
-PNG+ - Vehicles - Scanning - Increase Scanning Angle
-PNG- - Vehicles - Scanning - Decrease Scanning Angle
+FRND- - Vehicles - Target Cycling - Cycle Lock - Friendlies - Back
+HSTL- - Vehicles - Target Cycling - Cycle Lock - Hostiles - Back
 Lock - Vehicles - Cockpit - Lock All Doors
 Unlock - Vehicles - Cockpit - Unlock All Doors
 Open - Vehicles - Cockpit - Open All Doors
 Close - Vehicles - Cockpit - Close All Doors
+Reset Head - VOIP, FOIP and Head Tracking - Recenter Head Tracking Device (except TrackIR)
+PNG+ - Vehicles - Scanning - Increase Scanning Angle
+PNG- - Vehicles - Scanning - Decrease Scanning Angle
+CFG+ - Flight - Movement - Expand Configuration
+CFG- - Flight - Movement - Retract Configuration
 Wave - Social - Emotes - Wave
 Salute - Social - Emotes - Salute
 Point - Social - Emotes - Point

@@ -91,6 +91,10 @@ const App = function () {
 
 	const pull = async function () {
 		sendJsonMessage({ type: "pull", data: {} });
+
+		setTimeout(() => {
+			window.location.reload();
+		}, 10000);
 	}
 
 	useEffect(() => {

@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { json } from 'stream/consumers';
+import { spawnSync } from 'child_process';
 import { parseString } from 'xml2js';
 
 const dictionary: { [key: string]: string } = {};
@@ -12,25 +12,58 @@ function getLabelFromDictionary(label: string) {
 	return dictionary[label] || label;
 }
 
-const defaultGlobalIniPath = 'data/star-citizen/global.ini';
+//path constants
+const starCitizenInstallPath = 'C:/Games/Roberts Space Industries/StarCitizen/LIVE/';
+const starCitizenDataPath = 'data/star-citizen/';
 
-let data = fs.readFileSync(defaultGlobalIniPath);
+const globalIniPath = 'Data/Localization/english/global.ini'
+const defaultProfilePath = "Data/Libs/Config/defaultProfile.xml";
+const actionmapsPath = `${starCitizenInstallPath}USER/Client/0/Profiles/default/actionmaps.xml`;
+console.log(actionmapsPath);
 
-// Parse the INI data
+//get global.ini and defaultProfile.xml from Data.p4k
+console.log("get data from star citizen install - start");
+try {
+	fs.rmdirSync(starCitizenDataPath + "Data/", { recursive: true });
+} catch {
+	console.log("no data folder to remove");
+}
+console.log(process.cwd());
+
+spawnSync(`unp4k-suite/unp4k.exe`, [`${starCitizenInstallPath}Data.p4k`, `${globalIniPath}`], { cwd: `${process.cwd()}/${starCitizenDataPath}` });
+spawnSync(`unp4k-suite/unp4k.exe`, [`${starCitizenInstallPath}Data.p4k`, `${defaultProfilePath}`], { cwd: `${process.cwd()}/${starCitizenDataPath}` });
+spawnSync(`${starCitizenDataPath}/unp4k-suite/unforge.exe`, [`${starCitizenDataPath}${defaultProfilePath}`]);
+
+console.log("get data from star citizen install - end");
+
+//parse global.ini
+console.log("parse global.ini - start");
+let data = fs.readFileSync(`${starCitizenDataPath}${globalIniPath}`);
 const lines = data.toString().split('\n');
 
 lines.forEach((line) => {
 	const [key, value] = line.split('=');
 	if (key && value && key.indexOf("ui_") === 0)
-		dictionary[key.trim()] = value.trim();
+		dictionary[key.trim().replace(/,P$/, "")] = value.trim();
 });
+console.log("parse global.ini - end");
+
+//load the default profile
+console.log("parse defaultProfile.xml - start");
+data = fs.readFileSync(`${starCitizenDataPath}${defaultProfilePath}`);
 
 const keyboardActions: any[] = [];
 
-//load the default profile
-const defaultProfilePath = 'data/star-citizen/defaultProfile.xml';
+const convertToKeybind = (keybind: string) => {
+	if (!keybind) return "";
 
-data = fs.readFileSync(defaultProfilePath);
+	return keybind.replace("lctrl", "LEFT_CONTROL")
+		.replace("lshift", "LEFT_SHIFT")
+		.replace("lalt", "LEFT_ALT")
+		.replace("rctrl", "RIGHT_CONTROL")
+		.replace("rshift", "RIGHT_SHIFT")
+		.replace("ralt", "RIGHT_ALT");
+}
 
 // Parse the XML data
 parseString(data.toString(), (parseErr: Error | null, result: any) => {
@@ -47,7 +80,7 @@ parseString(data.toString(), (parseErr: Error | null, result: any) => {
 		if (label) {
 			actionMap.action.forEach((action: any) => {
 				const actionObject = {
-					keybind: action.$.keyboard?.trim(),
+					keybind: convertToKeybind(action.$.keyboard?.trim()),
 					category: getLabelFromDictionary(label),
 					label: getLabelFromDictionary(action.$.UILabel || action.$.name),
 					action: action.$.name,
@@ -58,9 +91,10 @@ parseString(data.toString(), (parseErr: Error | null, result: any) => {
 		}
 	});
 });
+console.log("parse defaultProfile.xml - end");
 
 //load current keybindings
-const actionmapsPath = 'data/star-citizen/actionmaps.xml';
+console.log("parse actionmaps.xml - start");
 
 data = fs.readFileSync(actionmapsPath);
 
@@ -71,22 +105,24 @@ parseString(data.toString(), (parseErr: Error | null, result: any) => {
 		return;
 	}
 
-	result.ActionMaps.ActionProfiles[0].actionmap.forEach((actionMap: any) => {
+	result.ActionMaps.ActionProfiles[0].actionmap?.forEach((actionMap: any) => {
 		actionMap.action.forEach((action: any) => {
 			action.rebind.forEach((rebind: any) => {
 				if (rebind.$.input.indexOf("kb1_") === 0) {
 					const keybind = rebind.$.input.replace("kb1_", "");
 					const keyboardAction = keyboardActions.find((keyboardAction) => keyboardAction.action === action.$.name);
 					if (keyboardAction) {
-						keyboardAction.keybind = keybind;
+						keyboardAction.keybind = convertToKeybind(keybind);
 					}
 				}
 			});
 		});
 	});
 });
+console.log("parse actionmaps.xml - end");
 
 //load the star cititzen app to get the actiosn that need keybinds
+console.log("find actions without keybinds - start");
 const starCitizenAppPath = '../server/applications/star-citizen.json';
 
 data = fs.readFileSync(starCitizenAppPath);
@@ -97,8 +133,12 @@ var actionsWithoutKeybinds: string[] = [];
 const checkButton = (button: any) => {
 	if (button && button.Action) {
 		const action = keyboardActions.find((keyboardAction) => keyboardAction.action === button.Action);
-		if (action.keybind === "") {
-			actionsWithoutKeybinds.push(`${button.TextLabel} - ${action.category} - ${action.label}`);
+		if (action) {
+			if (action.keybind === "") {
+				actionsWithoutKeybinds.push(`${button.TextLabel} - ${action.category} - ${action.label}`);
+			}
+		} else {
+			actionsWithoutKeybinds.push(`unknown button action: ${button.TextLabel} - ${button.Action}`);
 		}
 	}
 
@@ -111,9 +151,12 @@ app.pannels.forEach((pannel: any) => {
 	pannel.Bottom.forEach((button: any) => checkButton(button));
 	pannel.Rocker.forEach((rocker: any) => { checkButton(rocker.Top); checkButton(rocker.Bottom); });
 });
+console.log("find actions without keybinds - end");
 
 
 // Write keyboard actions to JSON file
+console.log("write keyboard actions to file - start");
 const filePath = '../server/applications/star-citizen-keybinds.json';
 fs.writeFileSync(filePath, JSON.stringify(keyboardActions));
 fs.writeFileSync('../server/applications/star-citizen-missing-keybinds.txt', actionsWithoutKeybinds.join("\n"));
+console.log("write keyboard actions to file - end");

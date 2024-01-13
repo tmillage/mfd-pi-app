@@ -60,10 +60,10 @@ class Keyboard extends HidDevice {
 					modifier |= 0x20;
 					break;
 				case "RIGHT_ALT":
-					modifier |= 0x30;
+					modifier |= 0x40;
 					break;
 				case "RIGHT_GUI":
-					modifier |= 0x40;
+					modifier |= 0x80;
 					break;
 				default:
 					const keycode = keys_to_keycodes[key.toUpperCase()];
