@@ -62,7 +62,23 @@ const convertToKeybind = (keybind: string) => {
 		.replace("lalt", "LEFT_ALT")
 		.replace("rctrl", "RIGHT_CONTROL")
 		.replace("rshift", "RIGHT_SHIFT")
-		.replace("ralt", "RIGHT_ALT");
+		.replace("ralt", "RIGHT_ALT")
+		.replace("np_1", "NUMPAD_ONE")
+		.replace("np_2", "NUMPAD_TWO")
+		.replace("np_3", "NUMPAD_THREE")
+		.replace("np_4", "NUMPAD_FOUR")
+		.replace("np_5", "NUMPAD_FIVE")
+		.replace("np_6", "NUMPAD_SIX")
+		.replace("np_7", "NUMPAD_SEVEN")
+		.replace("np_8", "NUMPAD_EIGHT")
+		.replace("np_9", "NUMPAD_NINE")
+		.replace("np_0", "NUMPAD_ZERO")
+		.replace("np_add", "NUMPAD_PLUS")
+		.replace("np_subtract", "NUMPAD_MINUS")
+		.replace("np_multiply", "NUMPAD_ASTERISK")
+		.replace("np_divide", "NUMPAD_FORWARD_SLASH")
+		.replace("np_period", "NUMPAD_PERIOD")
+		.replace("np_enter", "NUMPAD_ENTER");
 }
 
 // Parse the XML data
