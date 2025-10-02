@@ -1,0 +1,416 @@
+{
+	"name": "star-citizen",
+	"pannels": [
+		{
+			"Label": "Targeting",
+			"Background": "STARCITIZEN_WHITE.png",
+			"Top": [
+				{
+					"TextLabel": "Pin 1",
+					"Action": "v_target_toggle_lock_index_1"
+				},
+				{
+					"TextLabel": "Pin 2",
+					"Action": "v_target_toggle_lock_index_2"
+				},
+				{
+					"TextLabel": "Pin 3",
+					"Action": "v_target_toggle_lock_index_3"
+				},
+				{
+					"TextLabel": "Unlock",
+					"Action": "v_target_unlock_selected"
+				}
+			],
+			"Left": [
+				{
+					"TextLabel": "FRND NR",
+					"Action": "v_target_cycle_friendly_reset"
+				}
+			],
+			"Right": [
+				{
+					"TextLabel": "HSTL NR",
+					"Action": "v_target_cycle_hostile_reset"
+				},
+				{
+					"TextLabel": "EXIT SEAT",
+					"Action": "pl_exit"
+				},
+				{
+					"TextLabel": "Wipe Helmet",
+					"Action": "visor_wipe"
+				},
+				{
+					"TextLabel": "Gimbal",
+					"Action": "v_weapon_gimbal_mode_cycle_fixed_auto"
+				}
+			],
+			"Bottom": [],
+			"Rocker": [
+				{
+					"TextLabel": "FRND",
+					"Top": {
+						"TextLabel": "FRND+",
+						"Action": "v_target_cycle_friendly_fwd"
+					},
+					"Bottom": {
+						"TextLabel": "FRND-",
+						"Action": "v_target_cycle_friendly_back"
+					}
+				},
+				{
+					"TextLabel": "HSTL",
+					"Top": {
+						"TextLabel": "HSTL+",
+						"Action": "v_target_cycle_hostile_fwd"
+					},
+					"Bottom": {
+						"TextLabel": "HSTL-",
+						"Action": "v_target_cycle_hostile_back"
+					}
+				},
+				{
+					"TextLabel": "Lock",
+					"Top": {
+						"TextLabel": "Lock",
+						"Action": "v_lock_all_doors"
+					},
+					"Bottom": {
+						"TextLabel": "Unlock",
+						"Action": "v_unlock_all_doors"
+					}
+				},
+				{
+					"TextLabel": "Doors",
+					"Top": {
+						"TextLabel": "Open",
+						"Action": "v_open_all_doors"
+					},
+					"Bottom": {
+						"TextLabel": "Close",
+						"Action": "v_close_all_doors"
+					}
+				}
+			],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
+		},
+		{
+			"Label": "Flight",
+			"Background": "STARCITIZEN_WHITE.png",
+			"Top": [
+				{
+					"TextLabel": "Acpt",
+					"Action": "ui_notification_accept"
+				},
+				{
+					"TextLabel": "DcLn",
+					"Action": "ui_notification_decline"
+				},
+				{
+					"TextLabel": "",
+					"Action": ""
+				},
+				{
+					"TextLabel": "Reset Head",
+					"Action": "headtrack_recenter_device"
+				},
+				{
+					"TextLabel": "Head Track",
+					"Action": "headtrack_enabled"
+				}
+			],
+			"Left": [
+				{
+					"TextLabel": "Cam",
+					"Action": "v_view_cycle_fwd"
+				},
+				{
+					"TextLabel": "Load 1",
+					"Action": "view_load_view_1"
+				},
+				{
+					"TextLabel": "Load 2",
+					"Action": "view_load_view_2"
+				},
+				{
+					"TextLabel": "Load 3",
+					"Action": "view_load_view_3"
+				},
+				{
+					"TextLabel": "Reset Cam",
+					"Action": "view_reset_saved"
+				}
+			],
+			"Right": [
+				{
+					"TextLabel": "Cycle CFG",
+					"Action": "v_transform_cycle"
+				},
+				{
+					"TextLabel": "VTOL",
+					"Action": "v_toggle_vtol"
+				},
+				{
+					"TextLabel": "Lights",
+					"Action": "v_lights"
+				},
+				{
+					"TextLabel": "ATC",
+					"Action": "v_atc_request"
+				},
+				{
+					"TextLabel": "Auto Land",
+					"Action": "v_autoland"
+				}
+			],
+			"Bottom": [
+				{
+					"TextLabel": "Wep Pwr",
+					"Action": "v_power_toggle_weapons"
+				},
+				{
+					"TextLabel": "Shld Pwr",
+					"Action": "v_power_toggle_shields"
+				},
+				{
+					"TextLabel": "Eng Pwr",
+					"Action": "v_power_toggle_thrusters"
+				},
+				{
+					"TextLabel": "Flt Rdy",
+					"Action": "v_flightready"
+				},
+				{
+					"TextLabel": "Gear",
+					"Action": "v_toggle_landing_system"
+				}
+			],
+			"Rocker": [
+				{
+					"TextLabel": "FOV",
+					"Top": {
+						"TextLabel": "FOV+",
+						"Action": "view_fov_in"
+					},
+					"Bottom": {
+						"TextLabel": "FOV-",
+						"Action": "view_fov_out"
+					}
+				},
+				{
+					"TextLabel": "PNG",
+					"Top": {
+						"TextLabel": "PNG+",
+						"Action": "v_inc_scan_focus_level"
+					},
+					"Bottom": {
+						"TextLabel": "PNG-",
+						"Action": "v_dec_scan_focus_level"
+					}
+				},
+				{
+					"TextLabel": "CNTR",
+					"Top": {
+						"TextLabel": "CNTR+",
+						"Action": "v_weapon_countermeasure_decoy_burst_increase"
+					},
+					"Bottom": {
+						"TextLabel": "CNTR-",
+						"Action": "v_weapon_countermeasure_decoy_burst_decrease"
+					}
+				},
+				{
+					"TextLabel": "CFG",
+					"Top": {
+						"TextLabel": "CFG+",
+						"Action": "v_transform_deploy"
+					},
+					"Bottom": {
+						"TextLabel": "CFG-",
+						"Action": "v_transform_retract"
+					}
+				}
+			],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
+		},
+		{
+			"Label": "Emotes",
+			"Background": "STARCITIZEN_WHITE.png",
+			"Top": [
+				{
+					"TextLabel": "Wave",
+					"Action": "emote_wave"
+				},
+				{
+					"TextLabel": "Salute",
+					"Action": "emote_salute"
+				},
+				{
+					"TextLabel": "Point",
+					"Action": "emote_point"
+				},
+				{
+					"TextLabel": "Clap",
+					"Action": "emote_clap"
+				},
+				{
+					"TextLabel": "Cheer",
+					"Action": "emote_cheer"
+				}
+			],
+			"Left": [],
+			"Right": [],
+			"Bottom": [
+				{
+					"TextLabel": "Yes",
+					"Action": "emote_cs_yes"
+				},
+				{
+					"TextLabel": "LEFT",
+					"Action": "emote_cs_left"
+				},
+				{
+					"TextLabel": "FWD",
+					"Action": "emote_cs_forward"
+				},
+				{
+					"TextLabel": "RIGHT",
+					"Action": "emote_cs_right"
+				},
+				{
+					"TextLabel": "No",
+					"Action": "emote_cs_no"
+				}
+			],
+			"Rocker": [],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
+		},
+		{
+			"Label": "On Foot",
+			"Background": "STARCITIZEN_WHITE.png",
+			"Top": [
+				{},
+				{
+					"TextLabel": "RELD",
+					"Action": "reload"
+				},
+				{
+					"TextLabel": "HLSTR",
+					"Action": "holster"
+				},
+				{
+					"TextLabel": "RELD SCND",
+					"Action": "reloadSecondary"
+				},
+				{}
+			],
+			"Left": [
+				{
+					"TextLabel": "Drop",
+					"Action": "drop"
+				},
+				{
+					"TextLabel": "Wipe Helmet",
+					"Action": "visor_wipe"
+				}
+			],
+			"Right": [
+				{
+					"TextLabel": "Sidearm",
+					"Action": "selectpistol"
+				},
+				{
+					"TextLabel": "Primary",
+					"Action": "selectprimary"
+				},
+				{
+					"TextLabel": "Secondary",
+					"Action": "selectsecondary"
+				},
+				{
+					"TextLabel": "Gadget",
+					"Action": "selectgadget"
+				},
+				{
+					"TextLabel": "Melee",
+					"Action": "selectMeleeWeapon"
+				}
+			],
+			"Bottom": [],
+			"Rocker": [],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
+		},
+		{
+			"Label": "Salvage",
+			"Background": "STARCITIZEN_WHITE.png",
+			"Top": [
+				{},
+				{
+					"TextLabel": "Left",
+					"Action": "v_salvage_focus_left"
+				},
+				{
+					"TextLabel": "Both",
+					"Action": "v_salvage_focus_all_heads"
+				},
+				{
+					"TextLabel": "Right",
+					"Action": "v_salvage_focus_right"
+				},
+				{}
+			],
+			"Left": [],
+			"Right": [
+				{
+					"TextLabel": "Fracture",
+					"Action": "v_salvage_toggle_fire_fracture"
+				},
+				{
+					"TextLabel": "Disintegrate",
+					"Action": "v_salvage_toggle_fire_disintegrate"
+				},
+				{
+					"TextLabel": "Salvage",
+					"Action": "v_toggle_salvage_mode"
+				},
+				{
+					"TextLabel": "Gimbal",
+					"Action": "v_salvage_toggle_gimbal_mode"
+				},
+				{
+					"TextLabel": "Reset Gimbal",
+					"Action": "v_salvage_reset_gimbal"
+				}
+			],
+			"Bottom": [],
+			"Rocker": [],
+			"Display": [
+				{
+					"id": 1,
+					"data": "Initalized"
+				}
+			]
+		}
+	]
+}

@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Keyboard } from './hid';
-import {ApplicationDTO} from "shared/src/DTO";
+import {ApplicationDTO} from "shared/DTO";
 
 
 // Spinning the HTTP server and the WebSocket server.
