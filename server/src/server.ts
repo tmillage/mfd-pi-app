@@ -1,6 +1,8 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Keyboard } from './hid';
+import {ApplicationDTO} from "shared/src/DTO";
+
 
 // Spinning the HTTP server and the WebSocket server.
 const wsServer = new WebSocket.Server({ port: 5000 });
@@ -20,7 +22,7 @@ wsServer.on('connection', function (ws: WebSocket) {
 	clients[userId] = ws;
 	console.log(`${userId} connected.`);
 
-	let app: any = null;
+	let app: ApplicationDTO = null;
 	let actions: any = [];
 
 	const loadJsonFromFile = (name: string): any => {
@@ -38,10 +40,10 @@ wsServer.on('connection', function (ws: WebSocket) {
 		switch (message.type) {
 			case "getApp":
 				console.log("getApp");
-				app = loadJsonFromFile(message.data.name);
+				//app = loadJsonFromFile(message.data.name);
 				actions = loadJsonFromFile(`${message.data.name}-keybinds`);
 
-				console.log("getApp", app.Pannels);
+				console.log("getApp", app.panels);
 
 				ws.send(JSON.stringify({ type: 'app', data: app }));
 				break;

@@ -6,7 +6,11 @@
 		"moduleResolution": "node",
 		"sourceMap": true,
 		"rootDir": "src",
-		"outDir": "dist"
+		"outDir": "dist",
+		"baseUrl": ".",
+		"paths": {
+			"@shared/*": ["../shared/src/*"]
+		}
 	},
 	"lib": [
 		"es2015"
