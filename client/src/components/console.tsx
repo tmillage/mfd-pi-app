@@ -6,12 +6,12 @@ interface ConsoleProps {
 }
 
 interface ConsoleLine {
-	id: string;
+	id: number;
 	data: string;
 }
 
 const Console: React.FC<ConsoleProps> = ({ label, display }) => {
-	const el: RefObject<HTMLDivElement> = createRef();
+	const el: RefObject<HTMLDivElement | null> = createRef();
 
 	useEffect(() => {
 		const lines = el.current?.querySelectorAll(".mfdOutput > div");
@@ -31,7 +31,7 @@ const Console: React.FC<ConsoleProps> = ({ label, display }) => {
 			<div className="mfdLabel">{label || ""}</div>
 			<div className="mfdOutput">
 				{display && display.map((line) => (
-					<div key={line.id} className={line.id}>
+					<div key={line.id} className={line.id.toString()}>
 						{line.data}
 					</div>
 				))}

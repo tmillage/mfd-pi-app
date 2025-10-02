@@ -4,7 +4,6 @@
     panelSets: PanelSetDTO[];
 }
 export interface PanelDTO {
-    id: number;
     label: string;
     background: string;
     top: ButtonDTO[];
@@ -16,15 +15,16 @@ export interface PanelDTO {
 
 export interface PanelSetDTO {
     label: string
-    panelId: number[];
+    panels: string[];
 }
 
 export interface ButtonDTO {
-    label: string;
-    action: string;
+    label?: string;
+    action?: string;
 }
 
 export interface RockerDTO {
+    label: string;
     top: ButtonDTO;
     bottom: ButtonDTO;
 }

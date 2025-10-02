@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Button, ButtonType } from './button';
+import { Button } from './button';
+import { ButtonDTO } from 'shared/DTO'
 
 interface Key {
 	label?: string;
@@ -155,11 +156,10 @@ const Keyboard: React.FC<KeyboardProps> = ({ IsVisible, actionCallback }) => {
 			{ label: '.', value: 'KEYPAD_PERIOD' }]
 	];
 
-	const getButton = (keyboardButton: Key): ButtonType => {
+	const getButton = (keyboardButton: Key): ButtonDTO => {
 		return {
-			Label: keyboardButton.label || keyboardButton.value,
-			TextLabel: keyboardButton.label || keyboardButton.value,
-			Action: keyboardButton.value
+			label: keyboardButton.label || keyboardButton.value,
+			action: keyboardButton.value
 		}
 	}
 

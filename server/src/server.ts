@@ -2,6 +2,8 @@ import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Keyboard } from './hid';
 import {ApplicationDTO} from "shared/DTO";
+import {Application} from "./application";
+import {ConsoleMessageResponse} from "shared/console-message-response"
 
 
 // Spinning the HTTP server and the WebSocket server.
@@ -41,9 +43,10 @@ wsServer.on('connection', function (ws: WebSocket) {
 			case "getApp":
 				console.log("getApp");
 				//app = loadJsonFromFile(message.data.name);
+                app = Application('star-citizen');
 				actions = loadJsonFromFile(`${message.data.name}-keybinds`);
 
-				console.log("getApp", app.panels);
+				console.log("getApp", app);
 
 				ws.send(JSON.stringify({ type: 'app', data: app }));
 				break;
@@ -66,14 +69,16 @@ wsServer.on('connection', function (ws: WebSocket) {
 				} else {
 					keyboard.press([]);
 				}
+                
+                const data: ConsoleMessageResponse = {
+                    consoleId: message.data.mfd,
+                    message: `${message.data.type === "start" ? "press" : "release"} ${keybind || "no keybind"}`
+                }
 
 				ws.send(JSON.stringify(
 					{
-						type: 'actionResponse',
-						data: {
-							mfd: message.data.mfd,
-							response: `${message.data.type === "start" ? "press" : "release"} ${keybind || "no keybind"}`
-						}
+						type: 'consoleMessage',
+						data: data
 					})
 				);
 				break;

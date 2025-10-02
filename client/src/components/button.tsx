@@ -1,16 +1,11 @@
 import React, { useState, MouseEvent, TouchEvent } from 'react';
+import {ButtonDTO, RockerDTO} from "shared/DTO";
 
 interface ButtonProps {
-	button?: ButtonType;
+	button?: ButtonDTO;
 	label?: string;
 	actionCallback: (action: string, buttonAction: string) => void;
 	className?: string;
-}
-
-interface ButtonType {
-	Label?: string;
-	TextLabel: string;
-	Action: string;
 }
 
 const ButtonIcons = {
@@ -20,25 +15,25 @@ const ButtonIcons = {
 	DownArrow: "\u2193"
 };
 
-const DefaultButton = function (): ButtonType {
+const DefaultButton = function (): ButtonDTO {
 	return {
-		TextLabel: "",
-		Action: ""
+		label: "",
+		action: ""
 	};
 };
 
 const Button: React.FC<ButtonProps> = ({ button, label, actionCallback, className }) => {
 	const [pressed, setPressed] = useState(false);
 
-	const getButton = (): ButtonType => {
+	const getButton = (): ButtonDTO => {
 		return button || DefaultButton();
 	};
 
 	const actionStart = (evt: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>): void => {
 		setPressed(true);
 		(evt.target as HTMLButtonElement).style.transition = "";
-		(evt.target as HTMLButtonElement).style.backgroundColor = getButton().Action !== "" ? "green" : "red";
-		actionCallback("start", getButton().Action);
+		(evt.target as HTMLButtonElement).style.backgroundColor = getButton().action !== "" ? "green" : "red";
+		actionCallback("start", getButton().action || "");
 	};
 
 	const actionEnd = (evt: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>): void => {
@@ -46,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({ button, label, actionCallback, classNam
 			setPressed(false);
 			(evt.target as HTMLButtonElement).style.transition = "background-color 1s linear";
 			(evt.target as HTMLButtonElement).style.background = "unset";
-			actionCallback("end", getButton().Action);
+			actionCallback("end", getButton().action || "");
 		}
 
 		try {
@@ -55,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({ button, label, actionCallback, classNam
 	};
 
 	const buttonIcon = (): string => {
-		if (getButton().Action) {
+		if (getButton().action) {
 			return label || ButtonIcons.Default;
 		}
 		return ButtonIcons.NoAction;
@@ -76,51 +71,45 @@ const Button: React.FC<ButtonProps> = ({ button, label, actionCallback, classNam
 };
 
 interface ButtonLabelProps {
-	button?: ButtonType | RockerType;
+	button?: ButtonDTO | RockerDTO;
 }
 
 const ButtonLabel: React.FC<ButtonLabelProps> = ({ button }) => {
 	return (
 		<div className={`label`}>
-			{(button || DefaultButton()).TextLabel}
+			{(button || DefaultButton()).label }
 		</div>
 	);
 };
 
 interface RockerProps {
-	rocker?: RockerType;
+	rocker?: RockerDTO;
 	actionCallback: (action: string, buttonAction: string) => void;
 }
 
-interface RockerType {
-	TextLabel: string;
-	Top: ButtonType;
-	Bottom: ButtonType;
-}
-
-const DefaultRocker = function (): RockerType {
+const DefaultRocker = function (): RockerDTO {
 	return {
-		TextLabel: "",
-		Top: DefaultButton(),
-		Bottom: DefaultButton()
+		label: "",
+		top: DefaultButton(),
+		bottom: DefaultButton()
 	};
 };
 
 const Rocker: React.FC<RockerProps> = ({ rocker, actionCallback }) => {
-	const getRocker = (): RockerType => {
+	const getRocker = (): RockerDTO => {
 		return rocker || DefaultRocker();
 	};
 
 	return (
 		<div className="rocker">
-			<Button label={ButtonIcons.UpArrow} button={getRocker().Top} actionCallback={actionCallback} />
-			<Button label={ButtonIcons.DownArrow} button={getRocker().Bottom} actionCallback={actionCallback} />
+			<Button label={ButtonIcons.UpArrow} button={getRocker().top} actionCallback={actionCallback} />
+			<Button label={ButtonIcons.DownArrow} button={getRocker().bottom} actionCallback={actionCallback} />
 		</div>
 	);
 };
 
 interface RockerLabelProps {
-	rocker?: RockerType;
+	rocker?: RockerDTO;
 }
 
 const RockerLabel: React.FC<RockerLabelProps> = ({ rocker }) => {
@@ -129,4 +118,4 @@ const RockerLabel: React.FC<RockerLabelProps> = ({ rocker }) => {
 	);
 };
 
-export { DefaultButton, Button, ButtonLabel, ButtonType, DefaultRocker, Rocker, RockerLabel, RockerType };
+export { DefaultButton, Button, ButtonLabel, DefaultRocker, Rocker, RockerLabel };
