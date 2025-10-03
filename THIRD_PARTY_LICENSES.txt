@@ -1,0 +1,7 @@
+﻿This application uses the following third-party fonts:
+
+MS33558C Version 1.100
+- Copyright (c) Studio Di Lena
+- Source: https://www.studiodilena.com/en/2573.html
+- Licensed under Attribution-NoDerivs 3.0 Unported (CC BY-ND 3.0)
+ - https://creativecommons.org/licenses/by-nd/3.0/legalcode

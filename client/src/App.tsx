@@ -129,13 +129,12 @@ const App = function () {
 		return true;
 	}
 
-
 	return (
 		<div className='App' onClick={(evt) => { keyboardIsVisible && eventNotinKeyboard(evt) && setKeyboardIsVisible(false) }}>
 			<div className='Header'>
-				<button style={{ fontSize: "48px" }} onClick={() => setKeyboardIsVisible(!keyboardIsVisible)}>Keyboard</button>
+				<button onClick={() => setKeyboardIsVisible(!keyboardIsVisible)}>Keyboard</button>
                 {panelSets.map((panel, index) => (
-                    <button style={{ fontSize: "48px" }} onClick={() => switchTo(panel.panels[0], panel.panels[1])}>{panel.label}</button>
+                    <button onClick={() => switchTo(panel.panels[0], panel.panels[1])}>{panel.label}</button>
                 ))}
 			</div>
 			<div className='Content'>

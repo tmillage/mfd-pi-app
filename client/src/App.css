@@ -1,3 +1,14 @@
+/* Font: MS33558C by Studio Di Lena
+ * License: Attribution-NoDerivs 3.0 Unported (CC BY-ND 3.0)
+ * Source: https://www.studiodilena.com/en/2573.html
+ */
+@font-face {
+    font-family: 'MS33558';
+    src: url('/public/fonts/MS33558C.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
 	margin: 0;
 	height: 100%;
@@ -17,22 +28,33 @@ body {
 	bottom: var(--app-padding);
 	left: var(--app-padding);
 	right: var(--app-padding);
-}
+    font-family: MS33558;
+    
+    button {
+        font-family: MS33558;
+    }
 
-.App .Header {
-	height: 100px;
-	flex-grow: 1;
-	display: flex;
-	align-content: flex-start;
-	flex-wrap: wrap;
-	gap: 1em;
-	padding: 1em;
-}
+    .Header {
+        height: 100px;
+        flex-grow: 1;
+        display: flex;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        gap: 1em;
+        padding: 1em;
+        
+        button {
+            font-size: 48px;
+            line-height: 40px;
+            padding: 10px;
+        }
+    }
 
-.App .Content {
-	flex-shrink: 0;
-	display: flex;
-	flex-direction: row;
+    .Content {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+    }
 }
 
 #clock {
