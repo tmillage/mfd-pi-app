@@ -22,16 +22,15 @@ const App = function () {
 		},
         onMessage: (event) => {
             const response = JSON.parse(event.data) as WebSocketResponse;
-            const type = response.type;
             console.log("message received:")
             console.log(response);
             
             switch (response.type) {
-                case "app":
-                    const applicationResponse: ApplicationDTO = response.data as ApplicationDTO;
-                    setApp(applicationResponse);
-                    setPanelSets(applicationResponse.panelSets);
-                    setMfds([applicationResponse.panels[0], applicationResponse.panels[1]]);
+                case "application" :
+                    const application: ApplicationDTO = response.data as ApplicationDTO;
+                    setApp(application);
+                    setPanelSets(application.panelSets);
+                    setMfds([application.panels[0], application.panels[1]]);
                     break;
                 case "consoleMessage":
                     //todo: i broke this with my dto changes. will need to come up with a new solution

@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { Keyboard } from './hid';
 import {ApplicationDTO} from "shared/DTO";
 import {Application} from "./application";
-import {ConsoleMessageResponse} from "shared/console-message-response"
+import {WebSocketResponse, WebSocketResponseData, WebSocketResponseTypes} from "shared/web-socket-response"
+import {ConsoleMessage} from "shared/console-message"
 
 
 // Spinning the HTTP server and the WebSocket server.
@@ -35,6 +36,14 @@ wsServer.on('connection', function (ws: WebSocket) {
 
 		return json;
 	};
+    
+    const sendMessage = (type: WebSocketResponseTypes, data: WebSocketResponseData) => {
+        var response: WebSocketResponse = {
+            type: type,
+            data: data,
+        }
+        ws.send(JSON.stringify(response));
+    }
 
 	ws.on('message', async function (json: string) {
 		const message = JSON.parse(json);
@@ -42,13 +51,12 @@ wsServer.on('connection', function (ws: WebSocket) {
 		switch (message.type) {
 			case "getApp":
 				console.log("getApp");
-				//app = loadJsonFromFile(message.data.name);
                 app = Application('star-citizen');
 				actions = loadJsonFromFile(`${message.data.name}-keybinds`);
 
 				console.log("getApp", app);
-
-				ws.send(JSON.stringify({ type: 'app', data: app }));
+                
+                sendMessage("application", app);
 				break;
 			case "action":
 				console.log("action");
@@ -70,17 +78,12 @@ wsServer.on('connection', function (ws: WebSocket) {
 					keyboard.press([]);
 				}
                 
-                const data: ConsoleMessageResponse = {
+                const data: ConsoleMessage = {
                     consoleId: message.data.mfd,
                     message: `${message.data.type === "start" ? "press" : "release"} ${keybind || "no keybind"}`
                 }
-
-				ws.send(JSON.stringify(
-					{
-						type: 'consoleMessage',
-						data: data
-					})
-				);
+                
+                sendMessage("consoleMessage",data);
 				break;
 			case "pull":
 				console.log("pull");
