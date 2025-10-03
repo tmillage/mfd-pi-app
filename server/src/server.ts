@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { Keyboard } from './hid';
-import {ApplicationDTO} from "shared/DTO";
+import {ApplicationDTO, ActionDTO} from "shared/DTO";
 import {Application} from "./application";
 import {WebSocketResponse, WebSocketResponseData, WebSocketResponseTypes} from "shared/web-socket-response"
 import {ConsoleMessage} from "shared/console-message"
@@ -26,7 +26,7 @@ wsServer.on('connection', function (ws: WebSocket) {
 	console.log(`${userId} connected.`);
 
 	let app: ApplicationDTO = null;
-	let actions: any = [];
+	let actions: ActionDTO[] = [];
 
 	const loadJsonFromFile = (name: string): any => {
 		console.log("loadJsonFromFile", name);
@@ -47,26 +47,26 @@ wsServer.on('connection', function (ws: WebSocket) {
 
 	ws.on('message', async function (json: string) {
 		const message = JSON.parse(json);
-		console.log(message);
 		switch (message.type) {
 			case "getApp":
 				console.log("getApp");
+                
                 app = Application('star-citizen');
 				actions = loadJsonFromFile(`${message.data.name}-keybinds`);
-
-				console.log("getApp", app);
                 
                 sendMessage("application", app);
 				break;
 			case "action":
-				console.log("action");
+				console.log(`action - mfd:${message.data.mfd}`);
 
 				let keybind = "";
+                let actionLabel = "";
 
 				if (message.data.action === "keyboard") {
 					keybind = message.data.data;
 				} else {
 					const action = actions.find((keybind: any) => keybind.action === message.data.action);
+                    actionLabel = action.label;
 					keybind = action.keybind;
 				}
 
@@ -74,16 +74,18 @@ wsServer.on('connection', function (ws: WebSocket) {
 					if (keybind) {
 						keyboard.press(keybind.split("+"));
 					}
+                    if(message.data.mfd != "" && actionLabel  !== "") {
+                        const data: ConsoleMessage = {
+                            consoleId: message.data.mfd,
+                            message: actionLabel
+                        }
+
+                        sendMessage("consoleMessage",data);
+                    }
 				} else {
 					keyboard.press([]);
 				}
                 
-                const data: ConsoleMessage = {
-                    consoleId: message.data.mfd,
-                    message: `${message.data.type === "start" ? "press" : "release"} ${keybind || "no keybind"}`
-                }
-                
-                sendMessage("consoleMessage",data);
 				break;
 			case "pull":
 				console.log("pull");

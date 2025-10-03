@@ -28,3 +28,11 @@ export interface RockerDTO {
     top: ButtonDTO;
     bottom: ButtonDTO;
 }
+
+export interface ActionDTO {
+    keybind: string;
+    category: string;
+    label: string;
+    action: string;
+    activationMode: string;
+}
